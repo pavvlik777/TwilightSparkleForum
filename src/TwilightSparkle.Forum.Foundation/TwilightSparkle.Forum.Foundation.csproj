@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TwilightSparkle.Forum.DomainModel\TwilightSparkle.Forum.DomainModel.csproj" />
+    <ProjectReference Include="..\TwilightSparkle.Forum.Repository\TwilightSparkle.Forum.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
