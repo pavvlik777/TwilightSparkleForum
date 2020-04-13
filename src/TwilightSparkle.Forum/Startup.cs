@@ -7,8 +7,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
+using TwilightSparkle.Common.Hasher;
 using TwilightSparkle.Forum.DatabaseSeed;
+using TwilightSparkle.Forum.Foundation.Authentication;
 using TwilightSparkle.Forum.Repository.DbContexts;
+using TwilightSparkle.Forum.Repository.Interfaces;
+using TwilightSparkle.Forum.Repository.UnitOfWork;
 
 namespace TwilightSparkle.Forum
 {
@@ -30,6 +35,12 @@ namespace TwilightSparkle.Forum
 
             services.AddSingleton(Configuration);
             services.AddMvc(options => options.EnableEndpointRouting = false);
+
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+            services.AddScoped<IForumUnitOfWork, ForumUnitOfWork>();
+
+            services.AddSingleton<IHasher, Sha256>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => { options.LoginPath = new PathString("/Home/Login"); });
