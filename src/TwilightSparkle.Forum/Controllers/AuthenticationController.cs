@@ -25,6 +25,32 @@ namespace TwilightSparkle.Forum.Controllers
         }
 
 
+        public IActionResult SignUp()
+        {
+            return View(new SignUpViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SignUp(SignUpViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var signUpDto = CreateDto(model);
+            var result = await _authenticationService.SignUpAsync(signUpDto);
+            if (!result.IsSuccess)
+            {
+                var errorMessage = GetErrorMessage(result.ErrorType);
+                ModelState.AddModelError("", errorMessage);
+
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
         public IActionResult SignIn()
         {
             return View(new SignInViewModel());
@@ -38,7 +64,7 @@ namespace TwilightSparkle.Forum.Controllers
                 return View(model);
             }
 
-            var result = await _authenticationService.SignInAsync(model.Username, model.Password, false, Authenticate);
+            var result = await _authenticationService.SignInAsync(model.Username, model.Password, false, SignInAsync);
             if (!result.IsSuccess)
             {
                 var errorMessage = GetErrorMessage(result.ErrorType);
@@ -50,8 +76,16 @@ namespace TwilightSparkle.Forum.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SignOut()
+        {
+            await _authenticationService.SignOutAsync(SignOutAsync);
 
-        private async Task Authenticate(string username, int userId, bool rememberMe)
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        private async Task SignInAsync(string username, int userId, bool rememberMe)
         {
             var claims = new List<Claim>()
             {
@@ -71,6 +105,41 @@ namespace TwilightSparkle.Forum.Controllers
             }
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id), authProperties);
+        }
+
+        private async Task SignOutAsync()
+        {
+            await HttpContext.SignOutAsync();
+        }
+
+        private static SignUpDto CreateDto(SignUpViewModel model)
+        {
+            var signUpDto = new SignUpDto(
+                model.Username,
+                model.Password,
+                model.PasswordConfirmation,
+                model.Email);
+
+            return signUpDto;
+        }
+
+        private static string GetErrorMessage(SignUpErrorType error)
+        {
+            switch (error)
+            {
+                case SignUpErrorType.InvalidUsername:
+                    return "Invalid username";
+                case SignUpErrorType.InvalidPassword:
+                    return "Invalid password";
+                case SignUpErrorType.InvalidEmail:
+                    return "Invalid email";
+                case SignUpErrorType.DuplicateUsername:
+                    return "Duplicate username";
+                case SignUpErrorType.PasswordAndConfirmationNotSame:
+                    return "Password and it's confirmation are different";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(error), error, null);
+            }
         }
 
         private static string GetErrorMessage(SignInErrorType error)

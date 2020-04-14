@@ -2,5 +2,5 @@
 
 namespace TwilightSparkle.Forum.Foundation.Authentication
 {
-    public delegate Task AuthenticationHandler(string username, int userId, bool rememberMe);
+    public delegate Task SignInHandler(string username, int userId, bool rememberMe);
 }

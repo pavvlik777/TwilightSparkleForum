@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TwilightSparkle.Forum.DomainModel\TwilightSparkle.Forum.DomainModel.csproj" />
     <ProjectReference Include="..\TwilightSparkle.Forum.Repository\TwilightSparkle.Forum.Repository.csproj" />
   </ItemGroup>

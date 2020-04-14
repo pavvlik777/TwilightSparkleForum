@@ -1,0 +1,21 @@
+﻿@model TwilightSparkle.Forum.Models.Authentication.SignUpViewModel
+
+<h1>Sign up</h1>
+@using (Html.BeginForm("SignUp", "Authentication"))
+{
+    @Html.ValidationSummary(true)
+
+    @Html.LabelFor(m => m.Username)
+    @Html.TextBoxFor(m => m.Username)
+
+    @Html.LabelFor(m => m.Password)
+    @Html.TextBoxFor(m => m.Password)
+
+    @Html.LabelFor(m => m.PasswordConfirmation)
+    @Html.TextBoxFor(m => m.PasswordConfirmation)
+
+    @Html.LabelFor(m => m.Email)
+    @Html.TextBoxFor(m => m.Email)
+
+    <input type="submit" value="Sign up"/>
+}

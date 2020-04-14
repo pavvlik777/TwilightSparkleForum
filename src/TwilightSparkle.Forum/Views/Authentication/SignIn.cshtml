@@ -1,1 +1,15 @@
-﻿Sign in
+﻿@model TwilightSparkle.Forum.Models.Authentication.SignInViewModel
+
+<h1>Sign in</h1>
+@using (Html.BeginForm("SignIn", "Authentication"))
+{
+    @Html.ValidationSummary(true)
+
+    @Html.LabelFor(m => m.Username)
+    @Html.TextBoxFor(m => m.Username)
+
+    @Html.LabelFor(m => m.Password)
+    @Html.TextBoxFor(m => m.Password)
+
+    <input type="submit" value="Sign in" />
+}
