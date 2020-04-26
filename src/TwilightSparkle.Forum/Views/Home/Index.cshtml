@@ -1,11 +1,5 @@
-﻿<h1>Main page</h1>
-@if (User.Identity.IsAuthenticated)
-{
-    <span>@User.Identity.Name</span>
-    @Html.ActionLink("Sign out", "SignOut", "Authentication")
+﻿@{
+    ViewData["Title"] = "Home";
 }
-else
-{
-    @Html.ActionLink("Sign in", "SignIn", "Authentication")
-    @Html.ActionLink("Sign un", "SignUp", "Authentication")
-}
+
+<h1>Main page</h1>

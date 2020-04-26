@@ -76,7 +76,6 @@ namespace TwilightSparkle.Forum.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost]
         public async Task<IActionResult> SignOut()
         {
             await _authenticationService.SignOutAsync(SignOutAsync);

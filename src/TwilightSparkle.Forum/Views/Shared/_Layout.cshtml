@@ -8,12 +8,41 @@
     <link rel="shortcut icon" type="image/ico" href="~/favicon.ico" />
 </head>
 <body>
-    <header>
-    </header>
-    <main>
-        @RenderBody()
-    </main>
-    <footer>
-    </footer>
+<header>
+    <nav>
+        @Html.ActionLink("Twilight Sparkle Forum", "Index", "Home", null, new { @class = "menu-heading" })
+
+        <ul class="menu-list">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li class="menu-item">
+                    <a href="#" class="menu-link">@User.Identity.Name</a>
+                </li>
+                <li class="menu-item">
+                    @using (Html.BeginForm("SignOut", "Authentication"))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit">Sign out</button>
+                    }
+                </li>
+            }
+            else
+            {
+                <li class="menu-item">
+                    @Html.ActionLink("Sign In", "SignIn", "Authentication", null, new { @class = "menu-link" })
+                </li>
+                <li class="menu-item">
+                    @Html.ActionLink("Sign Up", "SignUp", "Authentication", null, new { @class = "menu-link" })
+                </li>
+            }
+        </ul>
+    </nav>
+</header>
+<main>
+    @RenderBody()
+</main>
+<footer>
+
+</footer>
 </body>
 </html>

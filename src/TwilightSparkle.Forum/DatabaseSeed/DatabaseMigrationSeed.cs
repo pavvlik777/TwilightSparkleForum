@@ -7,7 +7,6 @@ namespace TwilightSparkle.Forum.DatabaseSeed
     {
         public static void SeedMigrateDatabase(DatabaseContext appContext)
         {
-            appContext.Database.EnsureDeleted();
             appContext.Database.Migrate();
         }
     }

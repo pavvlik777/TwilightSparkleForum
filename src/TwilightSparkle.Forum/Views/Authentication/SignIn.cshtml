@@ -1,15 +1,32 @@
 ﻿@model TwilightSparkle.Forum.Models.Authentication.SignInViewModel
+@{
+    ViewData["Title"] = "Sign in";
+}
 
-<h1>Sign in</h1>
+<link rel="stylesheet" type="text/css" href="~/css/authentication.css" />
 @using (Html.BeginForm("SignIn", "Authentication"))
 {
-    @Html.ValidationSummary(true)
-
-    @Html.LabelFor(m => m.Username)
-    @Html.TextBoxFor(m => m.Username)
-
-    @Html.LabelFor(m => m.Password)
-    @Html.TextBoxFor(m => m.Password)
-
-    <input type="submit" value="Sign in" />
+    <h1>Sign in</h1>
+    <fieldset>
+        @Html.ValidationSummary(true)
+        <div class="control-group">
+            @Html.LabelFor(m => m.Username)
+            @Html.TextBoxFor(m => m.Username, htmlAttributes: new
+            {
+                placeholder = "Username...",
+                maxlength = 255
+            })
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password, htmlAttributes: new
+            {
+                placeholder = "Password...",
+                maxlength = 255
+            })
+        </div>
+        <div class="control-footer">
+            <input class="button primary-button" type="submit" value="Sign in" />
+        </div>
+    </fieldset>
 }

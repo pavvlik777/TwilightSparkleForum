@@ -1,0 +1,102 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    line-height: 1.7em;
+    color: #EEE;
+    background: #1f8dd6;
+    font-size: 16px;
+    margin: 0;
+}
+
+html {
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+h1, h2, h3, h4, h5, h6, h7, h8 {
+    text-align: center;
+}
+    .validation-summary-errors {
+    color: red;
+}
+
+    .validation-summary-errors ul {
+        list-style: none;
+        margin: 0;
+    }
+
+/*HEADER*/
+header {
+    background: #2d3e50;
+    padding: .5em;
+    text-align: left;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.10);
+    border-bottom: none;
+    z-index: 4;
+}
+
+header .menu-heading, .menu-list, .menu-item {
+        display: inline-block;
+    }
+
+    .menu-item .menu-link {
+        display: block;
+    }
+
+    header .menu-heading {
+        padding: .5em 1em;
+        color: white;
+        font-weight: 400;
+        font-size: 120%;
+        text-decoration: none;
+    }
+
+    header .menu-list {
+        float: right;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+.menu-list .menu-link {
+    background: none;
+    border: none;
+    text-decoration: none;
+    color: #6FBEF3;
+    padding: .5em 1em;
+}
+
+main {
+    padding: .5em;
+}
+
+
+.button {
+    font-family: inherit;
+    font-size: 100%;
+    padding: .5em 1em;
+    color: #444;
+    color: rgba(0,0,0,.8);
+    border: 1px solid #999;
+    border: none transparent;
+    background-color: #e6e6e6;
+    text-decoration: none;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.primary-button {
+    background-color: #0078e7;
+    color: white;
+}
+
+    .primary-button:hover {
+        background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),color-stop(40%,rgba(0,0,0,.05)),to(rgba(0,0,0,.1)));
+        background-image: -webkit-linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+        background-image: linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+    }

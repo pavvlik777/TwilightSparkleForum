@@ -1,21 +1,48 @@
 ﻿@model TwilightSparkle.Forum.Models.Authentication.SignUpViewModel
+@{
+    ViewData["Title"] = "Sign up";
+}
 
-<h1>Sign up</h1>
+<link rel="stylesheet" type="text/css" href="~/css/authentication.css" />
 @using (Html.BeginForm("SignUp", "Authentication"))
 {
-    @Html.ValidationSummary(true)
-
-    @Html.LabelFor(m => m.Username)
-    @Html.TextBoxFor(m => m.Username)
-
-    @Html.LabelFor(m => m.Password)
-    @Html.TextBoxFor(m => m.Password)
-
-    @Html.LabelFor(m => m.PasswordConfirmation)
-    @Html.TextBoxFor(m => m.PasswordConfirmation)
-
-    @Html.LabelFor(m => m.Email)
-    @Html.TextBoxFor(m => m.Email)
-
-    <input type="submit" value="Sign up"/>
+    <h1>Sign up</h1>
+    <fieldset>
+        @Html.ValidationSummary(true)
+        <div class="control-group">
+            @Html.LabelFor(m => m.Username)
+            @Html.TextBoxFor(m => m.Username, htmlAttributes: new
+            {
+                placeholder = "Username...",
+                maxlength = 255
+            })
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password, htmlAttributes: new
+            {
+                placeholder = "Password...",
+                maxlength = 255
+            })
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(m => m.PasswordConfirmation)
+            @Html.PasswordFor(m => m.PasswordConfirmation, htmlAttributes: new
+            {
+                placeholder = "Password confirmation...",
+                maxlength = 255
+            })
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, htmlAttributes: new
+            {
+                placeholder = "Email...",
+                maxlength = 255
+           })
+        </div>
+        <div class="control-footer">
+            <input class="button primary-button" type="submit" value="Sign up" />
+        </div>
+    </fieldset>
 }
