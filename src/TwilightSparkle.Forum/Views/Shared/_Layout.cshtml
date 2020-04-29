@@ -22,7 +22,7 @@
                     @using (Html.BeginForm("SignOut", "Authentication"))
                     {
                         @Html.AntiForgeryToken()
-                        <button type="submit">Sign out</button>
+                        <a href="javascript:;" class="menu-link" onclick="this.closest('form').submit();return false;">Sign out</a>
                     }
                 </li>
             }

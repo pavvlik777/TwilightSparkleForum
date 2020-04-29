@@ -7,9 +7,9 @@ namespace TwilightSparkle.Repository.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        Task<IReadOnlyCollection<T>> GetWhereAsync(Expression<Func<T, bool>> filter);
+        Task<IReadOnlyCollection<T>> GetWhereAsync(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes);
 
-        Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter);
+        Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes);
 
         void Create(T item);
 

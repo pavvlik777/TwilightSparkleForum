@@ -68,6 +68,11 @@ namespace TwilightSparkle.Forum.Foundation.Authentication
             {
                 return ServiceResult.CreateFailed(SignUpErrorType.DuplicateUsername);
             }
+            duplicateUser = await userRepository.GetFirstOrDefaultAsync(u => u.Email == signUpDto.Email);
+            if (duplicateUser != null)
+            {
+                return ServiceResult.CreateFailed(SignUpErrorType.DuplicateEmail);
+            }
 
             var passwordHash = _hasher.GetHash(signUpDto.Password);
             var newUser = new User

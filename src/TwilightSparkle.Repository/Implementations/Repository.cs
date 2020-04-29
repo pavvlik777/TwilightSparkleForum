@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+
 using Microsoft.EntityFrameworkCore;
+
 using TwilightSparkle.Repository.Interfaces;
 
 namespace TwilightSparkle.Repository.Implementations
@@ -22,14 +24,14 @@ namespace TwilightSparkle.Repository.Implementations
         }
 
 
-        public async Task<IReadOnlyCollection<T>> GetWhereAsync(Expression<Func<T, bool>> filter)
+        public async Task<IReadOnlyCollection<T>> GetWhereAsync(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes)
         {
-            return await Entities.Where(filter).ToListAsync();
+            return await GetQuery(includes).Where(expression).ToListAsync();
         }
 
-        public async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter)
+        public async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes)
         {
-            return await Entities.FirstOrDefaultAsync(filter);
+            return await GetQuery(includes).FirstOrDefaultAsync(expression);
         }
 
         public void Create(T item)
@@ -45,6 +47,20 @@ namespace TwilightSparkle.Repository.Implementations
         public void Delete(T item)
         {
             Entities.Remove(item);
+        }
+
+
+        protected virtual IQueryable<T> GetQuery(Expression<Func<T, object>>[] includes = null, IQueryable<T> query = null)
+        {
+            query = query ?? Entities;
+            if (includes == null)
+            {
+                return query;
+            }
+
+            query = includes.Aggregate(query, (current, include) => current.Include(include));
+
+            return query;
         }
     }
 }

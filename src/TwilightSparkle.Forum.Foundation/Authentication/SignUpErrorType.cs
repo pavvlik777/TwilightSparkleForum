@@ -6,6 +6,7 @@
         InvalidPassword,
         InvalidEmail,
         DuplicateUsername,
+        DuplicateEmail,
         PasswordAndConfirmationNotSame
     }
 }

@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using TwilightSparkle.Forum.CustomAttributes;
 using TwilightSparkle.Forum.Foundation.Authentication;
 using TwilightSparkle.Forum.Models.Authentication;
 
@@ -25,12 +27,15 @@ namespace TwilightSparkle.Forum.Controllers
         }
 
 
+        [AllowAnonymousOnly]
         public IActionResult SignUp()
         {
             return View(new SignUpViewModel());
         }
 
         [HttpPost]
+        [AllowAnonymousOnly]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignUp(SignUpViewModel model)
         {
             if (!ModelState.IsValid)
@@ -51,12 +56,15 @@ namespace TwilightSparkle.Forum.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [AllowAnonymousOnly]
         public IActionResult SignIn()
         {
             return View(new SignInViewModel());
         }
 
         [HttpPost]
+        [AllowAnonymousOnly]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignIn(SignInViewModel model)
         {
             if (!ModelState.IsValid)
@@ -76,6 +84,9 @@ namespace TwilightSparkle.Forum.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> SignOut()
         {
             await _authenticationService.SignOutAsync(SignOutAsync);
@@ -134,6 +145,8 @@ namespace TwilightSparkle.Forum.Controllers
                     return "Invalid email";
                 case SignUpErrorType.DuplicateUsername:
                     return "Duplicate username";
+                case SignUpErrorType.DuplicateEmail:
+                    return "Duplicate email";
                 case SignUpErrorType.PasswordAndConfirmationNotSame:
                     return "Password and it's confirmation are different";
                 default:
