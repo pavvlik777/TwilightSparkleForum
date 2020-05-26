@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200429225258_UploadImageImprovements.cs" />
+    <Compile Remove="Migrations\20200429225258_UploadImageImprovements.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TwilightSparkle.Common\TwilightSparkle.Common.csproj" />
     <ProjectReference Include="..\TwilightSparkle.Forum.DomainModel\TwilightSparkle.Forum.DomainModel.csproj" />
     <ProjectReference Include="..\TwilightSparkle.Repository\TwilightSparkle.Repository.csproj" />

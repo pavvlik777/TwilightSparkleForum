@@ -12,6 +12,12 @@ body {
     margin: 0;
 }
 
+@media only screen and (max-width: 1050px) {
+    body {
+        font-size: 14px;
+    }
+}
+
 html {
     font-family: sans-serif;
     -ms-text-size-adjust: 100%;
@@ -21,7 +27,8 @@ html {
 h1, h2, h3, h4, h5, h6, h7, h8 {
     text-align: center;
 }
-    .validation-summary-errors {
+
+.validation-summary-errors {
     color: red;
 }
 
@@ -31,37 +38,63 @@ h1, h2, h3, h4, h5, h6, h7, h8 {
     }
 
 /*HEADER*/
-header {
+body > header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     background: #2d3e50;
     padding: .5em;
     text-align: left;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.10);
     border-bottom: none;
     z-index: 4;
+    min-height: 4.5em;
 }
 
-header .menu-heading, .menu-list, .menu-item {
-        display: inline-block;
+header > nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+nav > .menu-list {
+    display: flex;
+    align-items: center;
+}
+
+nav > .menu-heading {
+    align-self: center;
+}
+
+    .menu-item img {
+        display: flex;
+        background: #aec1ae;
+        border-radius: 50%;
+        border: 2px solid white;
     }
 
-    .menu-item .menu-link {
-        display: block;
-    }
-
-    header .menu-heading {
-        padding: .5em 1em;
-        color: white;
-        font-weight: 400;
-        font-size: 120%;
-        text-decoration: none;
-    }
-
-    header .menu-list {
-        float: right;
-        list-style: none;
+    .menu-item form {
         margin: 0;
-        padding: 0;
     }
+
+header .menu-heading {
+    padding: .5em 1em;
+    color: white;
+    font-weight: 400;
+    font-size: 120%;
+    text-decoration: none;
+}
+
+header .menu-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 
 .menu-list .menu-link {
     background: none;
@@ -71,8 +104,12 @@ header .menu-heading, .menu-list, .menu-item {
     padding: .5em 1em;
 }
 
-main {
-    padding: .5em;
+body > main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 5em .5em .5em .5em;
 }
 
 
@@ -90,13 +127,90 @@ main {
     cursor: pointer;
 }
 
+button[type=button]:not([disabled]):hover, button[type=submit]:not([disabled]):hover {
+    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),color-stop(40%,rgba(0,0,0,.05)),to(rgba(0,0,0,.1)));
+    background-image: -webkit-linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+    background-image: linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+}
+
+input[type=button]:not([disabled]):hover, input[type=submit]:not([disabled]):hover {
+    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),color-stop(40%,rgba(0,0,0,.05)),to(rgba(0,0,0,.1)));
+    background-image: -webkit-linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+    background-image: linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+}
+
+button[type=button]:disabled, button[type=submit]:disabled {
+    cursor: default;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),color-stop(40%,rgba(0,0,0,.6)),to(rgba(0,0,0,1)));
+    background-image: -webkit-linear-gradient(transparent,rgba(0,0,0,.6) 40%,rgba(0,0,0,1));
+    background-image: linear-gradient(transparent,rgba(0, 0, 0, 0.6) 40%,rgba(0, 0, 0, 1));
+}
+
+input[type=button]:disabled, input[type=submit]:disabled {
+    cursor: default;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),color-stop(40%,rgba(0,0,0,.6)),to(rgba(0,0,0,1)));
+    background-image: -webkit-linear-gradient(transparent,rgba(0,0,0,.6) 40%,rgba(0,0,0,1));
+    background-image: linear-gradient(transparent,rgba(0, 0, 0, 0.6) 40%,rgba(0, 0, 0, 1));
+}
+
+
 .primary-button {
     background-color: #0078e7;
     color: white;
 }
 
-    .primary-button:hover {
-        background-image: -webkit-gradient(linear,left top,left bottom,from(transparent),color-stop(40%,rgba(0,0,0,.05)),to(rgba(0,0,0,.1)));
-        background-image: -webkit-linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
-        background-image: linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+.secondary-button {
+    background-color: #42b8dd;
+    color: white;
+}
+
+img.round {
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+/*Alert*/
+
+#site-messages {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    position: fixed;
+    right: 5%;
+    z-index: 100;
+    width: 20%;
+    opacity: 1;
+    transition: opacity 0.6s;
+}
+
+    #site-messages .alert:not(:last-child) {
+        margin-bottom: 10px;
     }
+
+.alert {
+    padding: 10px;
+}
+
+    .alert.error {
+        background-color: #f44336;
+    }
+
+    .alert p {
+        margin: 5px 15px 5px 5px;
+    }
+
+    .alert #close-btn {
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .alert #close-btn:hover {
+            color: black;
+        }
+
+/***********************/

@@ -11,7 +11,7 @@ namespace TwilightSparkle.Forum.Foundation.Authentication
     public class AuthenticationService : IAuthenticationService
     {
         private const string UsernamePattern = @"^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
-        private const string PasswordPattern = @"(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$";
+        private const string PasswordPattern = @"(?=^.{8,}$)(?=.*\d)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$";
         private const string EmailPattern = @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$";
 
         private static readonly Regex UsernameRegex;
@@ -79,7 +79,8 @@ namespace TwilightSparkle.Forum.Foundation.Authentication
             {
                 Username = signUpDto.Username,
                 Email = signUpDto.Email,
-                PasswordHash = passwordHash
+                PasswordHash = passwordHash,
+                ProfileImageId = null
             };
             userRepository.Create(newUser);
             await _unitOfWork.SaveAsync();
