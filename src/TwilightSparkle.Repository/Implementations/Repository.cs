@@ -29,6 +29,11 @@ namespace TwilightSparkle.Repository.Implementations
             return await GetQuery(includes).Where(expression).ToListAsync();
         }
 
+        public async Task<T> GetSingleOrDefaultAsync(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes)
+        {
+            return await GetQuery(includes).SingleOrDefaultAsync(expression);
+        }
+
         public async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes)
         {
             return await GetQuery(includes).FirstOrDefaultAsync(expression);

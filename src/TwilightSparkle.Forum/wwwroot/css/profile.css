@@ -1,0 +1,200 @@
+form.tab-form {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-direction: column;
+
+    width: 40%;
+    height: 40%;
+    background: #2d3e50;
+    margin: 35px;
+    padding: 0;
+}
+
+@media only screen and (max-width: 1050px) {
+    form.tab-form {
+        width: 70%;
+    }
+}
+
+.tab-list {
+    padding: 0 40px 10px 40px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #335070;
+    margin: 0;
+}
+
+    .tab-list li {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        list-style: none;
+    }
+
+        .tab-list li.right {
+            float: right;
+        }
+
+        .tab-list li a {
+            color: #6FBEF3;
+            text-decoration: none;
+        }
+
+            .tab-list li a:active {
+                color: #6FBEF3;
+                text-decoration: none;
+            }
+
+        .tab-list li:not(.save-changes):not(.active):hover {
+            background-color: #ddd;
+        }
+
+        .tab-list li.save-changes {
+            cursor: default;
+        }
+
+        .tab-list li.active {
+            cursor: default;
+            background-color: #434654;
+        }
+
+            .tab-list li.active a {
+                cursor: default;
+            }
+
+.tab-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-top: none;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+}
+
+    .tab-panel.hidden {
+        display: none;
+    }
+
+    .tab-panel h1, h2, h3, h4, h5, h6, h7, h8 {
+        text-align: left;
+        padding-bottom: .3em;
+        border-bottom: 2px solid white;
+        margin: 0.5em;
+    }
+
+    .tab-panel section {
+        display: flex;
+        justify-content: space-between;
+        height: 100%;
+        overflow: hidden;
+        padding: 0 15px 10px 15px;
+    }
+
+.tab-panel section .column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+section .column.column-start {
+    justify-content: flex-start;
+}
+
+section .column.column-1 {
+    flex: 1 0;
+}
+
+section .column.column-2 {
+    flex: 2 0;
+}
+
+.tab-panel section img {
+    background: #aec1ae;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+    .control-group label {
+        text-align: right;
+        vertical-align: middle;
+        margin: 0 1em 0 0;
+        flex: 1 0 10em;
+    }
+
+    .control-group p {
+        flex: 1 0 10em;
+    }
+
+    .control-group input {
+        padding: .5em .6em;
+        border: 1px solid #ccc;
+        -webkit-box-shadow: inset 0 1px 3px #ddd;
+        box-shadow: inset 0 1px 3px #ddd;
+        border-radius: 4px;
+        vertical-align: middle;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        flex: 1 0 10em;
+    }
+
+
+.image-upload-dialog {
+    display: none;
+    padding: 20%;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+.image-upload-dialog header {
+    padding: 2px 16px;
+    background-color: #335070;
+}
+
+.image-upload-dialog main {
+    padding: 8px 16px;
+    background-color: #4077b5;
+}
+
+#close-upload-dialog {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+    #close-upload-dialog:hover,
+    #close-upload-dialog:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }

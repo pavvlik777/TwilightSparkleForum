@@ -21,6 +21,8 @@
             @Html.LabelFor(m => m.Password)
             @Html.PasswordFor(m => m.Password, htmlAttributes: new
             {
+                @id = "password-input",
+                autocomplete = "nope",
                 placeholder = "Password...",
                 maxlength = 255
             })
@@ -29,9 +31,21 @@
             @Html.LabelFor(m => m.PasswordConfirmation)
             @Html.PasswordFor(m => m.PasswordConfirmation, htmlAttributes: new
             {
-                placeholder = "Password confirmation...",
-                maxlength = 255
+               autocomplete = "off",
+               placeholder = "Password confirmation...",
+               maxlength = 255
             })
+        </div>
+        <div class="control-group">
+            <div id="password-info">
+                <strong>Password must:</strong>
+                <ul>
+                    <li id="length" class="invalid">must contain at least 8 symbols;</li>
+                    <li id="letter" class="invalid">must contain lower case letters (a - z);</li>
+                    <li id="capital" class="invalid">must contain upper case letters (A - Z);</li>
+                    <li id="number" class="invalid">must contain numbers (0 - 9);</li>
+                </ul>
+            </div>
         </div>
         <div class="control-group">
             @Html.LabelFor(m => m.Email)
@@ -46,3 +60,4 @@
         </div>
     </fieldset>
 }
+<script src="~/js/authentication.js"></script>

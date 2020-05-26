@@ -9,5 +9,9 @@
         public string PasswordHash { get; set; }
 
         public string Email { get; set; }
+
+        public int? ProfileImageId { get; set; }
+
+        public UploadedImage ProfileImage { get; set; }
     }
 }
