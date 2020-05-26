@@ -41,6 +41,20 @@ namespace TwilightSparkle.Forum.Controllers.Api
             return image;
         }
 
+        [HttpGet("users/current")]
+        public async Task<IActionResult> GetForCurrentUser()
+        {
+            var currentUserIdentity = User.Identity;
+            var loadImageResult = await _imageStorageService.LoadImageForCurrentUserAsync(currentUserIdentity);
+            if (!loadImageResult.IsSuccessful)
+            {
+                return GetImageLoadErrorResult(loadImageResult.Error);
+            }
+            var image = PhysicalFile(loadImageResult.FilePath, loadImageResult.FileMediaType);
+
+            return image;
+        }
+
         [HttpPost]
         public async Task<ActionResult<SavedImageDataContract>> UploadImage(IFormFile image)
         {

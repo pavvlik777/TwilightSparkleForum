@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 
 using TwilightSparkle.Forum.DomainModel.Entities;
@@ -66,6 +67,33 @@ namespace TwilightSparkle.Forum.Foundation.ImageStorage
         {
             var imagesRepository = _unitOfWork.GetRepository<UploadedImage>();
             var imageDetails = await imagesRepository.GetSingleOrDefaultAsync(i => i.ExternalId == externalId);
+            if (imageDetails == null)
+            {
+                return LoadImageResult.CreateUnsuccessful(LoadImageError.IncorrectExternalId);
+            }
+
+            var relativePath = Path.Combine(_configuration.ImagesDirectory, imageDetails.FilePath);
+            var fullPath = Path.GetFullPath(relativePath);
+            var isImageExists = File.Exists(fullPath);
+
+            return isImageExists
+                ? LoadImageResult.CreateSuccessful(fullPath, imageDetails.MediaType)
+                : LoadImageResult.CreateUnsuccessful(LoadImageError.ImageNotExists);
+        }
+
+        public async Task<LoadImageResult> LoadImageForCurrentUserAsync(IIdentity identity)
+        {
+            var userRepository = _unitOfWork.UserRepository;
+            var currentUser = await userRepository.GetSingleOrDefaultAsync(u => u.Username == identity.Name, u => u.ProfileImage);
+
+            var imageExternalId = "default-profile-image";
+            if (currentUser.ProfileImageId.HasValue)
+            {
+                imageExternalId = currentUser.ProfileImage.ExternalId;
+            }
+
+            var imagesRepository = _unitOfWork.GetRepository<UploadedImage>();
+            var imageDetails = await imagesRepository.GetSingleOrDefaultAsync(i => i.ExternalId == imageExternalId);
             if (imageDetails == null)
             {
                 return LoadImageResult.CreateUnsuccessful(LoadImageError.IncorrectExternalId);

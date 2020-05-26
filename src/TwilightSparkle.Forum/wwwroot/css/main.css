@@ -39,6 +39,10 @@ h1, h2, h3, h4, h5, h6, h7, h8 {
 
 /*HEADER*/
 body > header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
     position: fixed;
     top: 0;
     left: 0;
@@ -49,34 +53,48 @@ body > header {
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.10);
     border-bottom: none;
     z-index: 4;
+    min-height: 4.5em;
 }
 
-    header .menu-heading, .menu-list, .menu-item {
-        display: inline-block;
+header > nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+nav > .menu-list {
+    display: flex;
+    align-items: center;
+}
+
+nav > .menu-heading {
+    align-self: center;
+}
+
+    .menu-item img {
+        display: flex;
+        background: #aec1ae;
+        border-radius: 50%;
+        border: 2px solid white;
     }
 
-        .menu-item .menu-link {
-            display: block;
-        }
-
-        .menu-item form {
-            margin: 0;
-        }
-
-    header .menu-heading {
-        padding: .5em 1em;
-        color: white;
-        font-weight: 400;
-        font-size: 120%;
-        text-decoration: none;
-    }
-
-    header .menu-list {
-        float: right;
-        list-style: none;
+    .menu-item form {
         margin: 0;
-        padding: 0;
     }
+
+header .menu-heading {
+    padding: .5em 1em;
+    color: white;
+    font-weight: 400;
+    font-size: 120%;
+    text-decoration: none;
+}
+
+header .menu-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 
 .menu-list .menu-link {
     background: none;
@@ -91,7 +109,7 @@ body > main {
     justify-content: center;
     align-items: center;
     height: 100%;
-    padding: 4.5em .5em .5em .5em;
+    padding: 5em .5em .5em .5em;
 }
 
 
@@ -157,7 +175,6 @@ img.round {
     display: flex;
     flex-direction: column;
     align-self: flex-start;
-
     position: fixed;
     right: 5%;
     z-index: 100;

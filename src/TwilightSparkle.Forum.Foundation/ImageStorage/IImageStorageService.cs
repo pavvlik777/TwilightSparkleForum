@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Security.Principal;
 using System.Threading.Tasks;
 
 namespace TwilightSparkle.Forum.Foundation.ImageStorage
@@ -8,5 +9,7 @@ namespace TwilightSparkle.Forum.Foundation.ImageStorage
         Task<SaveImageResult> SaveImageAsync(string filePath, Stream imageStream);
 
         Task<LoadImageResult> LoadImageAsync(string externalId);
+
+        Task<LoadImageResult> LoadImageForCurrentUserAsync(IIdentity identity);
     }
 }
