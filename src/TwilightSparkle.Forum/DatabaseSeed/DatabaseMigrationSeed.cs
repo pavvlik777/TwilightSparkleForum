@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,22 @@ namespace TwilightSparkle.Forum.DatabaseSeed
 {
     public static class DatabaseMigrationSeed
     {
+        private static IReadOnlyCollection<string> _sectionNames;
+
+
+        static DatabaseMigrationSeed()
+        {
+            var sectionNames = new List<string>
+            {
+                "News",
+                "Arts",
+                "Politics",
+                "Frienship"
+            };
+            _sectionNames = sectionNames;
+        }
+
+
         public static void SeedMigrateDatabase(DatabaseContext appContext)
         {
             appContext.Database.Migrate();
@@ -22,6 +39,22 @@ namespace TwilightSparkle.Forum.DatabaseSeed
                     FilePath = "default-profile-image.png"
                 };
                 appContext.Images.Add(defaultProfileImage);
+                appContext.SaveChanges();
+            }
+
+            foreach(var sectionName in _sectionNames)
+            {
+                var section = appContext.Sections.FirstOrDefault(s => s.Name == sectionName);
+                if(section != null)
+                {
+                    continue;
+                }
+
+                section = new Section
+                {
+                    Name = sectionName
+                };
+                appContext.Sections.Add(section);
                 appContext.SaveChanges();
             }
         }

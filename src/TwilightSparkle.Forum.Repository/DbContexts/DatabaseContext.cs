@@ -10,6 +10,10 @@ namespace TwilightSparkle.Forum.Repository.DbContexts
 
         public DbSet<UploadedImage> Images { get; set; }
 
+        public DbSet<Section> Sections { get; set; }
+
+        public DbSet<Thread> Threads { get; set; }
+
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options)
             : base(options)

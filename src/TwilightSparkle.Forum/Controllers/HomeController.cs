@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
 
@@ -6,7 +8,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using TwilightSparkle.Forum.DomainModel.Entities;
+using TwilightSparkle.Forum.Foundation.ThreadsManagement;
 using TwilightSparkle.Forum.Foundation.UserProfile;
+using TwilightSparkle.Forum.Models.Common;
 using TwilightSparkle.Forum.Models.Home;
 
 namespace TwilightSparkle.Forum.Controllers
@@ -15,25 +19,32 @@ namespace TwilightSparkle.Forum.Controllers
     public class HomeController : Controller
     {
         private readonly IUserProfileService _userProfileService;
+        private readonly IThreadsManagementService _threadsManagementService;
 
 
-        public HomeController(IUserProfileService userProfileService)
+        public HomeController(IUserProfileService userProfileService, IThreadsManagementService threadsManagementService)
         {
             _userProfileService = userProfileService;
+            _threadsManagementService = threadsManagementService;
         }
 
 
         [AllowAnonymous]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var sections = await _threadsManagementService.GetSectionsAsync();
+            var threads = await _threadsManagementService.GetPopularThreadsAsync();
+            var model = GetModel(sections, threads);
+
+            return View(model);
         }
 
         public async Task<IActionResult> Profile()
         {
             var user = await _userProfileService.GetCurrentUserAsync(CurrentUserIdentityProvider);
             var profileImageExternalId = await _userProfileService.GetCurrentUserImageExternalIdAsync(CurrentUserIdentityProvider);
-            var model = GetModel(user, profileImageExternalId);
+            var userThreads = await _threadsManagementService.GetUserThreadsAsync(User.Identity.Name);
+            var model = GetModel(user, profileImageExternalId, userThreads);
 
             return View(model);
         }
@@ -50,7 +61,7 @@ namespace TwilightSparkle.Forum.Controllers
                 var errorMessage = GetErrorMessage(updateResult.ErrorType);
                 ModelState.AddModelError("", errorMessage);
 
-                return View("Profile", model);
+                return RedirectToAction("Profile");
             }
 
             return RedirectToAction("Profile");
@@ -62,17 +73,46 @@ namespace TwilightSparkle.Forum.Controllers
             return User.Identity;
         }
 
-        private UserProfileViewModel GetModel(User user, string profileImageExternalId)
+        private IndexViewModel GetModel(IReadOnlyCollection<Section> sections, IReadOnlyCollection<Thread> popularThreads)
+        {
+            var sectionModels = sections.Select(s => new SectionViewModel
+            {
+                SectionName = s.Name
+            }).ToList();
+            var threadModels = popularThreads.Select(t => new ThreadViewModel
+            {
+                Title = t.Title,
+                Content = t.Content,
+                AuthorNickname = t.Author.Username
+            }).ToList();
+            var model = new IndexViewModel
+            {
+                Sections = sectionModels,
+                PopularThreads = threadModels
+            };
+
+            return model;
+        }
+
+        private UserProfileViewModel GetModel(User user, string profileImageExternalId, IReadOnlyCollection<Thread> userThreads)
         {
             var imageUrl = Url.Action("Get", "Images", new { id = profileImageExternalId }, Request.Scheme);
             var uploadImageUrl = Url.Action("UploadImage", "Images", null, Request.Scheme);
+            var threads = userThreads.Select(t => new BaseThreadInfoViewModel
+            {
+                AuthorNickname = t.Author.Username,
+                ThreadId = t.Id,
+                Title = t.Title
+            }).ToList();
+
             var model = new UserProfileViewModel
             {
                 Username = user.Username,
                 Email = user.Email,
                 ProfileImageUrl = imageUrl,
                 UploadImageUrl = uploadImageUrl,
-                ImageExternalId = profileImageExternalId
+                ImageExternalId = profileImageExternalId,
+                UserThreads = threads
             };
 
             return model;

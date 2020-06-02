@@ -1,5 +1,5 @@
 function openTab(event, tabName) {
-    var i, tabcontent, tablinks;
+    let i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tab-panel");
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].classList.add("hidden");
@@ -34,20 +34,20 @@ var saveChangesButton = document.getElementById("save-changes-button");
 var imageUploadFile = document.getElementById("image-upload-file");
 var imageUploadButton = document.getElementById("image-upload-button");
 imageUploadButton.onclick = function () {
-    var imageData = new FormData();
+    let imageData = new FormData();
     if (imageUploadFile.files.length == 0) {
         return;
     }
     imageData.append('image', imageUploadFile.files[0]);
 
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === this.DONE) {
             if (this.status == 200) {
-                var profileImage = document.getElementById("profile-image");
+                let profileImage = document.getElementById("profile-image");
                 profileImage.src = this.response.url;
-                var uploadImageExternalId = document.getElementById("hidden-upload-image-url");
+                let uploadImageExternalId = document.getElementById("hidden-upload-image-url");
                 uploadImageExternalId.value = this.response.externalId;
                 saveChangesButton.disabled = false;
                 imageUploadModal.style.display = "none";
@@ -73,7 +73,7 @@ imageUploadButton.onclick = function () {
             }
         }
     });
-    var uploadImageUrl = imageUploadButton.getAttribute("data-request-url");
+    let uploadImageUrl = imageUploadButton.getAttribute("data-request-url");
     xhr.open("POST", uploadImageUrl);
 
     xhr.send(imageData);

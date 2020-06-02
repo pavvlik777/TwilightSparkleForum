@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+using TwilightSparkle.Forum.Models.Common;
 
 namespace TwilightSparkle.Forum.Models.Home
 {
@@ -15,5 +18,7 @@ namespace TwilightSparkle.Forum.Models.Home
         public string ImageExternalId { get; set; }
 
         public string UploadImageUrl { get; set; }
+
+        public IReadOnlyCollection<BaseThreadInfoViewModel> UserThreads { get; set; }
     }
 }
