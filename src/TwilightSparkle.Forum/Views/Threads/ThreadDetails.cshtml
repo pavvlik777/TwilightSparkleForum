@@ -1,0 +1,24 @@
+﻿@model TwilightSparkle.Forum.Models.Threads.ThreadDetailsViewModel
+@{
+    ViewData["Title"] = "Thread details";
+}
+
+<section id="sidebar">
+    <nav>
+        @foreach (var section in Model.Sections)
+        {
+            <div>
+                @Html.ActionLink(section.SectionName, "SectionThreads", "Threads", new { sectionName = section.SectionName }, new { @class = "link" })
+            </div>
+        }
+    </nav>
+</section>
+<section id="content">
+    <article class="thread">
+        <div class="thread-header">
+            <div class="thread-name">@(Model.Thread.Title)</div>
+            <div class="thread-author-name">Author - @(Model.Thread.AuthorNickname)</div>
+        </div>
+        <div class="thread-content">@Html.Raw(Model.Thread.Content)</div>
+    </article>
+</section>

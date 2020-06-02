@@ -15,6 +15,7 @@ using TwilightSparkle.Forum.DatabaseSeed;
 using TwilightSparkle.Forum.Foundation.Authentication;
 using TwilightSparkle.Forum.Foundation.ImageService;
 using TwilightSparkle.Forum.Foundation.ImageStorage;
+using TwilightSparkle.Forum.Foundation.ThreadsManagement;
 using TwilightSparkle.Forum.Foundation.UserProfile;
 using TwilightSparkle.Forum.Repository.DbContexts;
 using TwilightSparkle.Forum.Repository.Interfaces;
@@ -43,6 +44,7 @@ namespace TwilightSparkle.Forum
             services.AddScoped<IUserProfileService, UserProfileService>();
             services.AddScoped<IImageStorageService, ImageStorageService>();
             services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IThreadsManagementService, ThreadsManagementService>();
 
             services.AddScoped<IForumUnitOfWork, ForumUnitOfWork>();
 

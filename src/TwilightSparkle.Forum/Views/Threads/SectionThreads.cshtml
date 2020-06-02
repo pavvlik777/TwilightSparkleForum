@@ -1,6 +1,6 @@
-﻿@model TwilightSparkle.Forum.Models.Home.IndexViewModel
+﻿@model TwilightSparkle.Forum.Models.Threads.SectionThreadsViewModel
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Section";
 }
 
 <section id="sidebar">
@@ -14,7 +14,11 @@
     </nav>
 </section>
 <section id="content">
-    @foreach (var thread in Model.PopularThreads)
+    @if (User.Identity.IsAuthenticated)
+    {
+        <button type="button" onclick="location.href = '@Url.Action("CreateThread", "Threads", new { sectionName = Model.SectionName })';" class="button">Create thread</button>
+    }
+    @foreach (var thread in Model.SectionThreads)
     {
         <article class="thread">
             <div class="thread-header">

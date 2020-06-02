@@ -53,16 +53,14 @@
         </section>
     </div>
     <div id="threads-tab" class="tab-panel">
-        <h2>User identity</h2>
+        <h2>User threads</h2>
         <section>
-            <div class="control-group">
-                @Html.LabelFor(m => m.Username)
-                @Html.DisplayFor(m => m.Username)
-            </div>
-            <div class="control-group">
-                @Html.LabelFor(m => m.Email)
-                @Html.DisplayFor(m => m.Email)
-            </div>
+            @foreach (var thread in Model.UserThreads)
+            {
+                <div class="control-group thread-details-group">
+                    @Html.ActionLink(thread.Title, "ThreadDetails", "Threads", new { threadId = thread.ThreadId })
+                </div>
+            }
         </section>
     </div>
 }

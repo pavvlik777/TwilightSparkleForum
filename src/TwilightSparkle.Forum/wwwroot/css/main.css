@@ -10,11 +10,24 @@ body {
     background: #1f8dd6;
     font-size: 16px;
     margin: 0;
+    overflow-y: hidden;
 }
+
+a.link {
+    background: none;
+    border: none;
+    text-decoration: none;
+    color: #6FBEF3;
+    padding: .5em 1em;
+}
+
+    a.link:hover {
+        color: #0099ff;
+    }
 
 @media only screen and (max-width: 1050px) {
     body {
-        font-size: 14px;
+        font-size: 22px;
     }
 }
 
@@ -42,7 +55,6 @@ body > header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     position: fixed;
     top: 0;
     left: 0;
@@ -71,16 +83,16 @@ nav > .menu-heading {
     align-self: center;
 }
 
-    .menu-item img {
-        display: flex;
-        background: #aec1ae;
-        border-radius: 50%;
-        border: 2px solid white;
-    }
+.menu-item img {
+    display: flex;
+    background: #aec1ae;
+    border-radius: 50%;
+    border: 2px solid white;
+}
 
-    .menu-item form {
-        margin: 0;
-    }
+.menu-item form {
+    margin: 0;
+}
 
 header .menu-heading {
     padding: .5em 1em;
@@ -108,8 +120,8 @@ body > main {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    padding: 5em .5em .5em .5em;
+    height: 100vh;
+    padding: 4.5em 0 0 0;
 }
 
 
@@ -214,3 +226,59 @@ img.round {
         }
 
 /***********************/
+
+#sidebar {
+    display: flex;
+    align-self: flex-start;
+    flex-direction: column;
+    flex: 1 0;
+    padding: .5em;
+    background: #4d6987;
+    height: 100%;
+}
+
+#content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex: 5 0;
+    overflow-y: auto;
+    height: 100%;
+    padding: 10px 25px;
+}
+
+    #content .button {
+        background-color: #42b8dd;
+        color: white;
+        margin-bottom: 1.5em;
+    }
+
+    #content article {
+        width: 75%;
+        margin-top: 0;
+        padding: 1.5em;
+        background: #2d3e50;
+    }
+
+        #content article ~ article {
+            margin-top: 3em;
+        }
+
+article .thread-header {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 2px solid white;
+}
+
+    article .thread-header .thread-name {
+        font-size: 1.7em;
+    }
+
+    article .thread-header .thread-author-name {
+        font-size: 0.8em;
+    }
+
+article .thread-content {
+    text-align: initial;
+    margin-top: 1.5em;
+}
