@@ -11,7 +11,6 @@ body {
     font-size: 16px;
     margin: 0;
     overflow-y: hidden;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -245,37 +244,41 @@ img.round {
 
 /***********************/
 
-    main .button {
-        background-color: #42b8dd;
-        color: white;
-        margin-bottom: 1.5em;
+main .button {
+    background-color: #42b8dd;
+    color: white;
+    margin-bottom: 1.5em;
+}
+
+main article {
+    width: 75%;
+    margin-top: 0;
+    padding: 1.5em;
+    background: #2d3e50;
+}
+
+    main article ~ article {
+        margin-top: 3em;
     }
 
-    main article {
-        width: 75%;
-        margin-top: 0;
-        padding: 1.5em;
-        background: #2d3e50;
-    }
-
-        main article ~ article {
-            margin-top: 3em;
-        }
-
-article h1.header {
+article .header {
     display: flex;
     justify-content: space-around;
     border-bottom: 2px solid white;
-    font-size: 1em;
 }
 
-    article h1.header .thread-name {
+    article .header h1, h2, h3, h4, h5, h6, h7, h8 {
+        font-size: 1em;
+        margin: 0;
+    }
+
+    article .header .thread-name {
         font-size: 1.7em;
     }
 
-    article h1.header .thread-author-name {
-        font-size: 0.8em;
-    }
+article h1.header .thread-author-name {
+    font-size: 0.8em;
+}
 
 article .thread-content {
     text-align: initial;
