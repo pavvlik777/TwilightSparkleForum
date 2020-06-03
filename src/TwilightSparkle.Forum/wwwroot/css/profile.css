@@ -6,7 +6,7 @@ form.tab-form {
     width: 40%;
     height: 40%;
     background: #2d3e50;
-    margin: 35px;
+    margin: auto 35px;
     padding: 0;
 }
 
@@ -18,7 +18,7 @@ form.tab-form {
 }
 
 .tab-list {
-    padding: 0 40px 10px 40px;
+    padding: 0 40px;
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: #335070;
@@ -186,6 +186,8 @@ section .column.column-2 {
 }
 
 #close-upload-dialog {
+    background: none;
+    border: none;
     color: #aaa;
     float: right;
     font-size: 28px;

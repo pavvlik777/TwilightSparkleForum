@@ -11,6 +11,12 @@ body {
     font-size: 16px;
     margin: 0;
     overflow-y: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 4.5em 0 0 0;
 }
 
 a.link {
@@ -116,12 +122,24 @@ header .menu-list {
     padding: .5em 1em;
 }
 
+body > aside {
+    display: flex;
+    align-self: flex-start;
+    flex-direction: column;
+    flex: 1 0;
+    padding: .5em;
+    background: #4d6987;
+    height: 100%;
+}
+
 body > main {
     display: flex;
-    justify-content: center;
     align-items: center;
-    height: 100vh;
-    padding: 4.5em 0 0 0;
+    flex-direction: column;
+    flex: 5 0;
+    overflow-y: auto;
+    height: 100%;
+    padding: 10px 25px;
 }
 
 
@@ -227,54 +245,34 @@ img.round {
 
 /***********************/
 
-#sidebar {
-    display: flex;
-    align-self: flex-start;
-    flex-direction: column;
-    flex: 1 0;
-    padding: .5em;
-    background: #4d6987;
-    height: 100%;
-}
-
-#content {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    flex: 5 0;
-    overflow-y: auto;
-    height: 100%;
-    padding: 10px 25px;
-}
-
-    #content .button {
+    main .button {
         background-color: #42b8dd;
         color: white;
         margin-bottom: 1.5em;
     }
 
-    #content article {
+    main article {
         width: 75%;
         margin-top: 0;
         padding: 1.5em;
         background: #2d3e50;
     }
 
-        #content article ~ article {
+        main article ~ article {
             margin-top: 3em;
         }
 
-article .thread-header {
+article header {
     display: flex;
     justify-content: space-around;
     border-bottom: 2px solid white;
 }
 
-    article .thread-header .thread-name {
+    article header .thread-name {
         font-size: 1.7em;
     }
 
-    article .thread-header .thread-author-name {
+    article header .thread-author-name {
         font-size: 0.8em;
     }
 
