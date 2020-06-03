@@ -262,17 +262,18 @@ img.round {
             margin-top: 3em;
         }
 
-article header {
+article h1.header {
     display: flex;
     justify-content: space-around;
     border-bottom: 2px solid white;
+    font-size: 1em;
 }
 
-    article header .thread-name {
+    article h1.header .thread-name {
         font-size: 1.7em;
     }
 
-    article header .thread-author-name {
+    article h1.header .thread-author-name {
         font-size: 0.8em;
     }
 
