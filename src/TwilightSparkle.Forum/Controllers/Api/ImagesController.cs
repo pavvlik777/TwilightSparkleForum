@@ -29,6 +29,7 @@ namespace TwilightSparkle.Forum.Controllers.Api
 
 
         [HttpGet("{id}")]
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> Get(string id)
         {
             var loadImageResult = await _imageStorageService.LoadImageAsync(id);
@@ -42,6 +43,7 @@ namespace TwilightSparkle.Forum.Controllers.Api
         }
 
         [HttpGet("users/current")]
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> GetForCurrentUser()
         {
             var currentUserIdentity = User.Identity;

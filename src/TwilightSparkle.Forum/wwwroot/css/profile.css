@@ -89,7 +89,6 @@ form.tab-form {
 
     .tab-panel section {
         display: flex;
-        justify-content: space-between;
         height: 100%;
         overflow: hidden;
         padding: 0 15px 10px 15px;
