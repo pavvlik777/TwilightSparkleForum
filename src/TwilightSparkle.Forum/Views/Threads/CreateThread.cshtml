@@ -3,51 +3,55 @@
     ViewData["Title"] = "Create thread";
 }
 
-<link rel="stylesheet" type="text/css" href="~/css/thread-management.css" />
-@using (Html.BeginForm("CreateThread", "Threads", FormMethod.Post, htmlAttributes: new { id = "create-thread-form", @class = "thread-form" }))
-{
-    @Html.HiddenFor(m => m.SectionName)
+<main>
+    <div id="site-messages"></div>
+    <link rel="stylesheet" type="text/css" href="~/css/thread-management.css" />
+    @using (Html.BeginForm("CreateThread", "Threads", FormMethod.Post, htmlAttributes: new { id = "create-thread-form", @class = "thread-form" }))
+    {
+        @Html.HiddenFor(m => m.SectionName)
 
-    <h2>Create thread</h2>
-    <fieldset>
-        <div class="control-group">
-            @Html.LabelFor(m => m.Title)
-            @Html.TextBoxFor(m => m.Title, htmlAttributes: new
-            {
-                placeholder = "Title...",
-                maxlength = 255
-            })
-        </div>
-        <div id="content-editor" class="control-group">
-            <div class="toolbar">
-                <div class="group">
-                    <button type="button" id="heading1"><i class="fa fa-header" aria-hidden="true"></i>1</button>
-                    <button type="button" id="heading2"><i class="fa fa-header" aria-hidden="true"></i>2</button>
-                    <button type="button" id="heading3"><i class="fa fa-header" aria-hidden="true"></i>3</button>
-                </div>
-                <div class="group">
-                    <button type="button" id="bold"><i class="fa fa-bold" aria-hidden="true"></i></button>
-                    <button type="button" id="italic"><i class="fa fa-italic" aria-hidden="true"></i></button>
-                </div>
-                <div class="group">
-                    <button type="button" id="link"><i class="fa fa-link" aria-hidden="true"></i></button>
-                    <button type="button" id="list-ul"><i class="fa fa-list-ul" aria-hidden="true"></i></button>
-                    <button type="button" id="list-ol"><i class="fa fa-list-ol" aria-hidden="true"></i></button>
-                    <button type="button" id="image-link"><i class="fa fa-picture-o" aria-hidden="true"></i></button>
-                </div>
-                <button type="button" id="preview">Preview</button>
+        <h2>Create thread</h2>
+        <fieldset>
+            <div class="control-group">
+                @Html.LabelFor(m => m.Title)
+                @Html.TextBoxFor(m => m.Title, htmlAttributes: new
+                {
+                    placeholder = "Title...",
+                    maxlength = 255
+                })
             </div>
-            <div id="input-output">
-                <textarea id="input-area" rows="30" cols="50" placeholder="Thread content here..."></textarea>
-                @Html.HiddenFor(m => m.Content, new { id = "parsed-content" })
-                <div id="output-area"></div>
-                <p class="preview-message">Preview Mode</p>
+            <div id="content-editor" class="control-group">
+                <div class="toolbar">
+                    <div class="group">
+                        <button type="button" id="heading1"><i class="fa fa-header"></i>1</button>
+                        <button type="button" id="heading2"><i class="fa fa-header"></i>2</button>
+                        <button type="button" id="heading3"><i class="fa fa-header"></i>3</button>
+                    </div>
+                    <div class="group">
+                        <button type="button" id="bold"><i class="fa fa-bold"></i></button>
+                        <button type="button" id="italic"><i class="fa fa-italic"></i></button>
+                    </div>
+                    <div class="group">
+                        <button type="button" id="link"><i class="fa fa-link"></i></button>
+                        <button type="button" id="list-ul"><i class="fa fa-list-ul"></i></button>
+                        <button type="button" id="list-ol"><i class="fa fa-list-ol"></i></button>
+                        <button type="button" id="image-link"><i class="fa fa-picture-o"></i></button>
+                    </div>
+                    <button type="button" id="preview">Preview</button>
+                </div>
+                <div id="input-output">
+                    <textarea id="input-area" rows="30" cols="50" placeholder="Thread content here..."></textarea>
+                    @Html.HiddenFor(m => m.Content, new { id = "parsed-content" })
+                    <div id="output-area"></div>
+                    <p class="preview-message">Preview Mode</p>
+                </div>
+                <script src="~/markdown/markdown.js"></script>
             </div>
-            <script src="~/markdown/markdown.js"></script>
-        </div>
-        <div class="control-group">
-            <button type="submit" class="button primary-button">Save thread</button>
-        </div>
-    </fieldset>
-}
-<script src="~/js/thread-management.js"></script>
+            <div class="control-group">
+                <button type="submit" class="button primary-button">Save thread</button>
+            </div>
+        </fieldset>
+    }
+    <script src="~/js/thread-management.js"></script>
+    <script src="~/js/main.js"></script>
+</main>

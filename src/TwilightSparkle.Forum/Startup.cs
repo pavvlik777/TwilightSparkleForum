@@ -94,8 +94,12 @@ namespace TwilightSparkle.Forum
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                    name: "API",
+                    pattern: "api/{controller=Home}/{action=Index}");
+                endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}");
+                    pattern: "{*url}",
+                    defaults: new { controller = "App", action = "Index" });
             });
         }
     }

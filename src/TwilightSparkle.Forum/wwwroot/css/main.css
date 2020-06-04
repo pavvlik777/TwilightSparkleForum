@@ -276,9 +276,9 @@ article .header {
         font-size: 1.7em;
     }
 
-article h1.header .thread-author-name {
-    font-size: 0.8em;
-}
+    article .header .thread-author-name {
+        font-size: 0.8em;
+    }
 
 article .thread-content {
     text-align: initial;

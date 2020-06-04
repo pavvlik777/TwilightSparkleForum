@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using TwilightSparkle.Forum.ControllerExtenstions;
 using TwilightSparkle.Forum.CustomAttributes;
 using TwilightSparkle.Forum.Foundation.Authentication;
 using TwilightSparkle.Forum.Models.Authentication;
@@ -16,6 +17,8 @@ using IAuthenticationService = TwilightSparkle.Forum.Foundation.Authentication.I
 
 namespace TwilightSparkle.Forum.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class AuthenticationController : Controller
     {
         private readonly IAuthenticationService _authenticationService;
@@ -27,15 +30,65 @@ namespace TwilightSparkle.Forum.Controllers
         }
 
 
-        [AllowAnonymousOnly]
-        public IActionResult SignUp()
+        [Route("SignIn")]
+        public async Task<IActionResult> SignIn()
         {
-            return View(new SignUpViewModel());
+            if (User.Identity.IsAuthenticated)
+            {
+                return Forbid();
+            }
+
+            var model = new SignInViewModel();
+            var content = await this.RenderViewToStringAsync("/Views/Authentication/SignIn.cshtml", model);
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = content
+            };
         }
 
         [HttpPost]
-        [AllowAnonymousOnly]
-        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SignIn(SignInViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var result = await _authenticationService.SignInAsync(model.Username, model.Password, false, SignInAsync);
+            if (!result.IsSuccess)
+            {
+                var errorMessage = GetErrorMessage(result.ErrorType);
+                ModelState.AddModelError("", errorMessage);
+
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Route("SignUp")]
+        public async Task<IActionResult> SignUp()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Forbid();
+            }
+
+            var model = new SignUpViewModel();
+            var content = await this.RenderViewToStringAsync("/Views/Authentication/SignUp.cshtml", model);
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = content
+            };
+        }
+
+        [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel model)
         {
             if (!ModelState.IsValid)
@@ -56,39 +109,14 @@ namespace TwilightSparkle.Forum.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [AllowAnonymousOnly]
-        public IActionResult SignIn()
-        {
-            return View(new SignInViewModel());
-        }
-
         [HttpPost]
-        [AllowAnonymousOnly]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignIn(SignInViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var result = await _authenticationService.SignInAsync(model.Username, model.Password, false, SignInAsync);
-            if (!result.IsSuccess)
-            {
-                var errorMessage = GetErrorMessage(result.ErrorType);
-                ModelState.AddModelError("", errorMessage);
-
-                return View(model);
-            }
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         [Authorize]
         public async Task<IActionResult> SignOut()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
             await _authenticationService.SignOutAsync(SignOutAsync);
 
             return RedirectToAction("Index", "Home");

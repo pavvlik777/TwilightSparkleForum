@@ -1,5 +1,5 @@
 var passwordInfo = document.getElementById("password-info");
-var passwordInput = document.getElementById("password-input");
+var passwordInput = document.getElementById("Password");
 
 function validatePassword(password) {
     let length = passwordInfo.querySelector("#length");
@@ -44,10 +44,8 @@ function validatePassword(password) {
     }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    passwordInput.addEventListener("keyup", function () {
-        let password = this.value;
-        validatePassword(password);
-    });
-    validatePassword(passwordInput.value);
+passwordInput.addEventListener("keyup", function () {
+    let password = this.value;
+    validatePassword(password);
 });
+validatePassword(passwordInput.value);

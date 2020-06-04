@@ -15,7 +15,7 @@ namespace TwilightSparkle.Forum.Controllers.Api
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class ImagesController : ControllerBase
+    public class ImagesController : Controller
     {
         private readonly IImageStorageService _imageStorageService;
         private readonly IImageService _imageService;

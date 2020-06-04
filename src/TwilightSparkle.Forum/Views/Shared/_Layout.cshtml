@@ -15,7 +15,7 @@
 <body>
     <header>
         <nav>
-            @Html.ActionLink("Twilight Sparkle Forum", "Index", "Home", null, new { @class = "menu-heading" })
+            <a class="menu-heading forum-link" href="/">Twilight Sparkle Forum</a>
 
             <ul class="menu-list">
                 @if (User.Identity.IsAuthenticated)
@@ -31,7 +31,6 @@
                     <li class="menu-item">
                         @using (Html.BeginForm("SignOut", "Authentication"))
                         {
-                            @Html.AntiForgeryToken()
                             <a href="javascript:;" class="menu-link" onclick="this.closest('form').submit();return false;">Sign out</a>
                         }
                     </li>
@@ -39,19 +38,15 @@
                 else
                 {
                     <li class="menu-item">
-                        @Html.ActionLink("Sign In", "SignIn", "Authentication", null, new { @class = "menu-link" })
+                        <a class="menu-link forum-link" href="/Authentication/SignIn">Sign In</a>
                     </li>
                     <li class="menu-item">
-                        @Html.ActionLink("Sign Up", "SignUp", "Authentication", null, new { @class = "menu-link" })
+                        <a class="menu-link forum-link" href="/Authentication/SignUp">Sign Up</a>
                     </li>
                 }
             </ul>
         </nav>
     </header>
-    <main>
-        <div id="site-messages"></div>
-        @RenderBody()
-    </main>
-    <script src="~/js/main.js"></script>
+    @RenderBody()
 </body>
 </html>
