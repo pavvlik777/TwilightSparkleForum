@@ -1,0 +1,78 @@
+﻿<html>
+<head>
+    <title>Create thread - Twilight Sparkle Forum</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link href="/font-awesome/free-v4-shims.min.css" media="all" rel="stylesheet">
+    <link href="/font-awesome/free-v4-font-face.min.css" media="all" rel="stylesheet">
+    <link href="/font-awesome/free.min.css" media="all" rel="stylesheet">
+
+    <script src="/font-awesome/font-awesome.js"></script>
+    <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
+</head>
+<body>
+    <header>
+        <nav>
+            <a class="menu-heading" href="/static/MainPage.html">Twilight Sparkle Forum</a>
+
+            <ul class="menu-list">
+                <li class="menu-item">
+                    <a href="/static/Profile.html">
+                        <img id="header-user-profile-image" src="https://i.imgur.com/LP66JsO.jpg" width="45" height="45" />
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/static/Profile.html">twilight_sparkle</a>
+                </li>
+                <li class="menu-item">
+                    <form action="#" method="post">
+                        <a href="#" class="menu-link">Sign out</a>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <link rel="stylesheet" type="text/css" href="/css/thread-management.css" />
+        <form action="#" class="thread-form" id="create-thread-form" method="post">
+            <input id="SectionName" name="SectionName" type="hidden" value="News" />
+            <h2>Create thread</h2>
+            <fieldset>
+                <div class="control-group">
+                    <label for="Title">Title</label>
+                    <input id="Title" maxlength="255" name="Title" placeholder="Title..." type="text" value="" />
+                </div>
+                <div id="content-editor" class="control-group">
+                    <div class="toolbar">
+                        <div class="group">
+                            <button type="button" id="heading1"><i class="fa fa-header"></i>1</button>
+                            <button type="button" id="heading2"><i class="fa fa-header"></i>2</button>
+                            <button type="button" id="heading3"><i class="fa fa-header"></i>3</button>
+                        </div>
+                        <div class="group">
+                            <button type="button" id="bold"><i class="fa fa-bold"></i></button>
+                            <button type="button" id="italic"><i class="fa fa-italic"></i></button>
+                        </div>
+                        <div class="group">
+                            <button type="button" id="link"><i class="fa fa-link"></i></button>
+                            <button type="button" id="list-ul"><i class="fa fa-list-ul"></i></button>
+                            <button type="button" id="list-ol"><i class="fa fa-list-ol"></i></button>
+                            <button type="button" id="image-link"><i class="fa fa-picture-o"></i></button>
+                        </div>
+                        <button type="button" id="preview">Preview</button>
+                    </div>
+                    <div id="input-output">
+                        <textarea id="input-area" rows="30" cols="50" placeholder="Thread content here..."></textarea>
+                        <input id="parsed-content" name="Content" type="hidden" value="" />
+                        <div id="output-area"></div>
+                        <p class="preview-message">Preview Mode</p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <button type="submit" class="button primary-button">Save thread</button>
+                </div>
+            </fieldset>
+        </form>
+    </main>
+</body>
+</html>

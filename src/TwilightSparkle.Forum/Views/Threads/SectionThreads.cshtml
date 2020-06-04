@@ -1,0 +1,31 @@
+﻿@model TwilightSparkle.Forum.Models.Threads.SectionThreadsViewModel
+@{
+    ViewData["Title"] = "Section";
+}
+
+<section id="sidebar">
+    <nav>
+        @foreach (var section in Model.Sections)
+        {
+            <div>
+                @Html.ActionLink(section.SectionName, "SectionThreads", "Threads", new { sectionName = section.SectionName }, new { @class = "link" })
+            </div>
+        }
+    </nav>
+</section>
+<section id="content">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <button type="button" onclick="location.href = '@Url.Action("CreateThread", "Threads", new { sectionName = Model.SectionName })';" class="button">Create thread</button>
+    }
+    @foreach (var thread in Model.SectionThreads)
+    {
+        <article class="thread">
+            <div class="thread-header">
+                <div class="thread-name">@(thread.Title)</div>
+                <div class="thread-author-name">Author - @(thread.AuthorNickname)</div>
+            </div>
+            <div class="thread-content">@Html.Raw(thread.Content)</div>
+        </article>
+    }
+</section>

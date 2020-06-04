@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using TwilightSparkle.Forum.DomainModel.Entities;
 
 namespace TwilightSparkle.Forum.Repository.DbContexts
@@ -6,6 +7,12 @@ namespace TwilightSparkle.Forum.Repository.DbContexts
     public class DatabaseContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+
+        public DbSet<UploadedImage> Images { get; set; }
+
+        public DbSet<Section> Sections { get; set; }
+
+        public DbSet<Thread> Threads { get; set; }
 
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options)

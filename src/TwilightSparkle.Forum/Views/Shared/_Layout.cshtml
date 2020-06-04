@@ -1,15 +1,57 @@
-﻿<html>
+﻿@using TwilightSparkle.Forum.IdentityExtensions
+
+<html>
 <head>
     <title>@ViewData["Title"] - Twilight Sparkle Forum</title>
+
+    <link rel="stylesheet" type="text/css" href="~/css/main.css" />
+    <link href="~/font-awesome/free-v4-shims.min.css" media="all" rel="stylesheet">
+    <link href="~/font-awesome/free-v4-font-face.min.css" media="all" rel="stylesheet">
+    <link href="~/font-awesome/free.min.css" media="all" rel="stylesheet">
+
+    <script src="~/font-awesome/font-awesome.js"></script>
     <link rel="shortcut icon" type="image/ico" href="~/favicon.ico" />
 </head>
 <body>
     <header>
+        <nav>
+            @Html.ActionLink("Twilight Sparkle Forum", "Index", "Home", null, new { @class = "menu-heading" })
+
+            <ul class="menu-list">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="menu-item">
+                        <a asp-controller="Home" asp-action="Profile">
+                            <img id="header-user-profile-image" src="@Url.GetProfileImageUrl()" width="45" height="45" />
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        @Html.ActionLink(User.Identity.Name, "Profile", "Home", null, new { @class = "menu-link" })
+                    </li>
+                    <li class="menu-item">
+                        @using (Html.BeginForm("SignOut", "Authentication"))
+                        {
+                            @Html.AntiForgeryToken()
+                            <a href="javascript:;" class="menu-link" onclick="this.closest('form').submit();return false;">Sign out</a>
+                        }
+                    </li>
+                }
+                else
+                {
+                    <li class="menu-item">
+                        @Html.ActionLink("Sign In", "SignIn", "Authentication", null, new { @class = "menu-link" })
+                    </li>
+                    <li class="menu-item">
+                        @Html.ActionLink("Sign Up", "SignUp", "Authentication", null, new { @class = "menu-link" })
+                    </li>
+                }
+            </ul>
+        </nav>
     </header>
     <main>
+        <div id="site-messages"></div>
         @RenderBody()
     </main>
-    <footer>
-    </footer>
+    <script src="~/js/main.js"></script>
 </body>
 </html>

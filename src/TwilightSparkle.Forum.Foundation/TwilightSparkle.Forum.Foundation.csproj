@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MimeMapping" Version="1.0.1.26" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TwilightSparkle.Forum.DomainModel\TwilightSparkle.Forum.DomainModel.csproj" />
     <ProjectReference Include="..\TwilightSparkle.Forum.Repository\TwilightSparkle.Forum.Repository.csproj" />
   </ItemGroup>
