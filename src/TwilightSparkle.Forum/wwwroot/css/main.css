@@ -55,6 +55,14 @@ h1, h2, h3, h4, h5, h6, h7, h8 {
         margin: 0;
     }
 
+.error-page-message {
+    margin: auto;
+    font-size: 2em;
+    background: #2d3e50;
+    padding: 3em;
+    text-align: center;
+}
+
 /*HEADER*/
 body > header {
     display: flex;

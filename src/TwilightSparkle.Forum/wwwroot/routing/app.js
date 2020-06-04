@@ -96,11 +96,23 @@ let getRoutes = {
     },
 
 
-    "/NotFound": {
-
+    "/NotFoundError": {
+        "apiRoute": "/api/Error/NotFound",
+        "title": "Not found",
+        "successCallback": defaultSuccessCallback,
+        "errorCallback": handleError,
+        "jsFiles": [
+            "/js/main.js"
+        ]
     },
     '/InternalError': {
-
+        "apiRoute": "/api/Error/InternalError",
+        "title": "Internal error",
+        "successCallback": defaultSuccessCallback,
+        "errorCallback": handleError,
+        "jsFiles": [
+            "/js/main.js"
+        ]
     }
 }
 
@@ -211,7 +223,7 @@ function reloadBody(url) {
 
 function handleError(statusCode) {
     if (statusCode === 404) {
-        sendRequest("/NotFound", "", "GET");
+        sendRequest("/NotFoundError", "", "GET");
     }
     else if (statusCode === 401) {
         onUrlClick("/Authentication/SignIn");
