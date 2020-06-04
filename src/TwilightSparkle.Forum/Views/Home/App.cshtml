@@ -1,17 +1,9 @@
 ﻿@using TwilightSparkle.Forum.IdentityExtensions
+@{
+    Layout = null;
+    ViewData["Title"] = "Index";
+}
 
-<html>
-<head>
-    <title>@ViewData["Title"] - Twilight Sparkle Forum</title>
-
-    <link rel="stylesheet" type="text/css" href="~/css/main.css" />
-    <link href="~/font-awesome/free-v4-shims.min.css" media="all" rel="stylesheet">
-    <link href="~/font-awesome/free-v4-font-face.min.css" media="all" rel="stylesheet">
-    <link href="~/font-awesome/free.min.css" media="all" rel="stylesheet">
-
-    <script src="~/font-awesome/font-awesome.js"></script>
-    <link rel="shortcut icon" type="image/ico" href="~/favicon.ico" />
-</head>
 <body>
     <header>
         <nav>
@@ -46,6 +38,8 @@
             </ul>
         </nav>
     </header>
-    @RenderBody()
+    <main id="main-content">
+        <!--WILL BE REPLACED-->
+    </main>
+    <script src="~/routing/app.js"></script>
 </body>
-</html>

@@ -50,23 +50,28 @@ namespace TwilightSparkle.Forum.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignIn(SignInViewModel model)
+        [Route("SignIn")]
+        public async Task<IActionResult> SignIn([FromForm] SignInViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (User.Identity.IsAuthenticated)
             {
-                return View(model);
+                return Forbid();
             }
 
             var result = await _authenticationService.SignInAsync(model.Username, model.Password, false, SignInAsync);
             if (!result.IsSuccess)
             {
                 var errorMessage = GetErrorMessage(result.ErrorType);
-                ModelState.AddModelError("", errorMessage);
 
-                return View(model);
+                return new ContentResult
+                {
+                    ContentType = "application/json",
+                    StatusCode = (int)HttpStatusCode.Unauthorized,
+                    Content = errorMessage
+                };
             }
 
-            return RedirectToAction("Index", "Home");
+            return Ok();
         }
 
         [Route("SignUp")]
@@ -89,11 +94,12 @@ namespace TwilightSparkle.Forum.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignUp(SignUpViewModel model)
+        [Route("SignUp")]
+        public async Task<IActionResult> SignUp([FromForm]SignUpViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (User.Identity.IsAuthenticated)
             {
-                return View(model);
+                return Forbid();
             }
 
             var signUpDto = CreateDto(model);
@@ -101,16 +107,20 @@ namespace TwilightSparkle.Forum.Controllers
             if (!result.IsSuccess)
             {
                 var errorMessage = GetErrorMessage(result.ErrorType);
-                ModelState.AddModelError("", errorMessage);
 
-                return View(model);
+                return new ContentResult
+                {
+                    ContentType = "application/json",
+                    StatusCode = (int)HttpStatusCode.Unauthorized,
+                    Content = errorMessage
+                };
             }
 
-            return RedirectToAction("Index", "Home");
+            return Ok();
         }
 
         [HttpPost]
-        [Authorize]
+        [Route("SignOut")]
         public async Task<IActionResult> SignOut()
         {
             if (!User.Identity.IsAuthenticated)
@@ -119,7 +129,7 @@ namespace TwilightSparkle.Forum.Controllers
             }
             await _authenticationService.SignOutAsync(SignOutAsync);
 
-            return RedirectToAction("Index", "Home");
+            return Ok();
         }
 
 

@@ -8,9 +8,9 @@
     <nav>
         @foreach (var section in Model.Sections)
         {
-            <div>
-                @Html.ActionLink(section.SectionName, "SectionThreads", "Threads", new { sectionName = section.SectionName }, new { @class = "link" })
-            </div>
+        <div>
+            <a href="/Threads/SectionThreads?sectionName=@(section.SectionName)" class="forum-link link">@(section.SectionName)</a>
+        </div>
         }
     </nav>
 </aside>

@@ -1,51 +1,14 @@
-var passwordInfo = document.getElementById("password-info");
-var passwordInput = document.getElementById("Password");
+var signInForm = document.getElementById("sign-in-form");
 
-function validatePassword(password) {
-    let length = passwordInfo.querySelector("#length");
-    let letter = passwordInfo.querySelector("#letter");
-    let capital = passwordInfo.querySelector("#capital");
-    let number = passwordInfo.querySelector("#number");
+signInForm.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-    if (password.length < 8) {
-        length.classList.remove("valid");
-        length.classList.add("invalid");
-    }
-    else {
-        length.classList.remove("invalid");
-        length.classList.add("valid");
-    }
+    let usernameInput = signInForm.querySelector("#Username");
+    let passwordInput = signInForm.querySelector("#Password");
+    let data = new FormData();
+    data.append('Username', usernameInput.value);
+    data.append('Password', passwordInput.value);
 
-    if (password.match(/[a-z]/)) {
-        letter.classList.remove("invalid");
-        letter.classList.add("valid");
-    }
-    else {
-        letter.classList.remove("valid");
-        letter.classList.add("invalid");
-    }
-
-    if (password.match(/[A-Z]/)) {
-        capital.classList.remove("invalid");
-        capital.classList.add("valid");
-    }
-    else {
-        capital.classList.remove("valid");
-        capital.classList.add("invalid");
-    }
-
-    if (password.match(/(?=.*\d)/)) {
-        number.classList.remove("invalid");
-        number.classList.add("valid");
-    }
-    else {
-        number.classList.remove("valid");
-        number.classList.add("invalid");
-    }
-}
-
-passwordInput.addEventListener("keyup", function () {
-    let password = this.value;
-    validatePassword(password);
+    const urlObj = new URL(signInForm.action);
+    sendRequest(urlObj.pathname, urlObj.search, "POST", data);
 });
-validatePassword(passwordInput.value);

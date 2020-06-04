@@ -1,66 +1,97 @@
+function defaultSuccessCallback(responseText) {
+    document.title = this.title + " - Twilight Sparkle Forum";
+    let sidebarContent = document.getElementById('sidebar-content');
+    if (sidebarContent) {
+        sidebarContent.remove();
+    }
+    let mainContent = document.getElementById('main-content');
+    if (mainContent) {
+        mainContent.outerHTML = responseText;
+    }
+
+    for (let i = 0; i < this.jsFiles.length; i++) {
+        getScript(this.jsFiles[i]);
+    }
+    registerLinks();
+}
+
 let getRoutes = {
     '/': {
         "apiRoute": "/api/Home/Index",
         "title": "Index",
-        "successCallback": function (responseText) {
-            let sidebarContent = document.getElementById('sidebar-content');
-            if (sidebarContent) {
-                sidebarContent.remove();
-            }
-            let mainContent = document.getElementById('main-content');
-            if (mainContent) {
-                mainContent.outerHTML = responseText;
-            }
-
-            for (let i = 0; i < this.jsFiles.length; i++) {
-                getScript(this.jsFiles[i]);
-            }
-        },
+        "successCallback": defaultSuccessCallback,
+        "errorCallback": handleError,
         "jsFiles": [
+            "/js/main.js"
+        ]
+    },
+    '/Home/Index': {
+        "apiRoute": "/api/Home/Index",
+        "title": "Index",
+        "successCallback": defaultSuccessCallback,
+        "errorCallback": handleError,
+        "jsFiles": [
+            "/js/main.js"
+        ]
+    },
+    '/Home/Profile': {
+        "apiRoute": "/api/Home/Profile",
+        "title": "Profile",
+        "successCallback": defaultSuccessCallback,
+        "errorCallback": handleError,
+        "jsFiles": [
+            "/js/profile.js",
             "/js/main.js"
         ]
     },
     '/Authentication/SignIn': {
         "apiRoute": "/api/Authentication/SignIn",
         "title": "Sign In",
-        "successCallback": function (responseText) {
-            let sidebarContent = document.getElementById('sidebar-content');
-            if (sidebarContent) {
-                sidebarContent.remove();
-            }
-            let mainContent = document.getElementById('main-content');
-            if (mainContent) {
-                mainContent.outerHTML = responseText;
-            }
-
-            for (let i = 0; i < this.jsFiles.length; i++) {
-                getScript(this.jsFiles[i]);
-            }
-        },
+        "successCallback": defaultSuccessCallback,
+        "errorCallback": handleError,
         "jsFiles": [
+            "/js/authentication.js",
             "/js/main.js"
         ]
     },
     '/Authentication/SignUp': {
         "apiRoute": "/api/Authentication/SignUp",
         "title": "Sign Up",
-        "successCallback": function (responseText) {
-            let sidebarContent = document.getElementById('sidebar-content');
-            if (sidebarContent) {
-                sidebarContent.remove();
-            }
-            let mainContent = document.getElementById('main-content');
-            if (mainContent) {
-                mainContent.outerHTML = responseText;
-            }
-
-            for (let i = 0; i < this.jsFiles.length; i++) {
-                getScript(this.jsFiles[i]);
-            }
-        },
+        "successCallback": defaultSuccessCallback,
+        "errorCallback": handleError,
         "jsFiles": [
-            "/js/main.js",
-            "/js/authentication.js"
+            "/js/authorization.js",
+            "/js/main.js"
+        ]
+    },
+    '/Threads/SectionThreads': {
+        "apiRoute": "/api/Threads/SectionThreads",
+        "title": "Section threads",
+        "successCallback": defaultSuccessCallback,
+        "errorCallback": handleError,
+        "jsFiles": [
+            "/js/section-threads.js",
+            "/js/main.js"
+        ]
+    },
+    '/Threads/ThreadsDetails': {
+        "apiRoute": "/api/Threads/ThreadsDetails",
+        "title": "Thread details",
+        "successCallback": defaultSuccessCallback,
+        "errorCallback": handleError,
+        "jsFiles": [
+            "/js/main.js"
+        ]
+    },
+    '/Threads/CreateThread': {
+        "apiRoute": "/api/Threads/CreateThread",
+        "title": "Create thread",
+        "successCallback": defaultSuccessCallback,
+        "errorCallback": handleError,
+        "jsFiles": [
+            "/js/thread-management.js",
+            "/markdown/markdown.js",
+            "/js/main.js"
         ]
     },
 
@@ -73,6 +104,110 @@ let getRoutes = {
     }
 }
 
+let postRoutes = {
+    '/Authentication/SignIn': {
+        "apiRoute": "/api/Authentication/SignIn",
+        "title": "Sign In",
+        "successCallback": function (responseText) {
+            reloadBody("/");
+        },
+        "errorCallback": function (statusCode, responseText) {
+            if (statusCode === 401) {
+                showErrorMessage(responseText);
+            }
+            else {
+                showErrorMessage("Unknown error");
+            }
+        },
+        "jsFiles": [
+        ]
+    },
+    '/Authentication/SignUp': {
+        "apiRoute": "/api/Authentication/SignUp",
+        "title": "Sign In",
+        "successCallback": function (responseText) {
+            reloadBody("/Authentication/SignIn");
+        },
+        "errorCallback": function (statusCode, responseText) {
+            if (statusCode === 401) {
+                showErrorMessage(responseText);
+            }
+            else {
+                showErrorMessage("Unknown error");
+            }
+        },
+        "jsFiles": [
+        ]
+    },
+    '/Home/SaveChanges': {
+        "apiRoute": "/api/Home/SaveChanges",
+        "title": "Save Changes",
+        "successCallback": function (responseText) {
+            reloadBody("/Home/Profile");
+        },
+        "errorCallback": function (statusCode, responseText) {
+            if (statusCode === 400) {
+                showErrorMessage(responseText);
+            }
+            else {
+                showErrorMessage("Unknown error");
+            }
+        },
+        "jsFiles": [
+        ]
+    },
+    "/Authentication/SignOut": {
+        "apiRoute": "/api/Authentication/SignOut",
+        "title": "Sign Out",
+        "successCallback": function (responseText) {
+            reloadBody("/");
+        },
+        "errorCallback": handleError,
+        "jsFiles": [
+        ]
+    },
+    "/Threads/CreateThread": {
+        "apiRoute": "/api/Threads/CreateThread",
+        "title": "Create thread",
+        "successCallback": function (responseText) {
+            reloadBody("/");
+        },
+        "errorCallback": function (statusCode, responseText) {
+            if (statusCode === 400) {
+                showErrorMessage(responseText);
+            }
+            else {
+                showErrorMessage("Unknown error");
+            }
+        },
+        "jsFiles": [
+        ]
+    }
+}
+
+
+function reloadBody(url) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "/api/Home/App", true);
+    xhr.onreadystatechange = function () {
+        if (this.readyState !== 4) {
+            return;
+        }
+        if (this.status !== 200) {
+            handleError(this.status);
+
+            return;
+        }
+
+        let body = document.getElementsByTagName("body")[0];
+        if (body) {
+            body.outerHTML = this.responseText;
+        }
+
+        urlClickHandler(url);
+    };
+    xhr.send();
+}
 
 function handleError(statusCode) {
     if (statusCode === 404) {
@@ -89,7 +224,6 @@ function handleError(statusCode) {
 function getScript(source) {
     let script = document.createElement('script');
     let mainContent = document.getElementById('main-content');
-    script.async = 1;
 
     script.onload = script.onreadystatechange = function (_, isAbort) {
         if (isAbort || !script.readyState || /loaded|complete/.test(script.readyState)) {
@@ -103,7 +237,11 @@ function getScript(source) {
 }
 
 function sendRequest(pathname, search, method) {
-    const targetRoute = method === "GET" ? getRoutes[pathname] : null;
+    sendRequest(pathname, search, method, null);
+}
+
+function sendRequest(pathname, search, method, formData) {
+    const targetRoute = method === "GET" ? getRoutes[pathname] : postRoutes[pathname];
     if (!targetRoute) {
         handleError(404);
 
@@ -122,15 +260,19 @@ function sendRequest(pathname, search, method) {
             return;
         }
         if (this.status !== 200) {
-            handleError(this.status);
+            targetRoute.errorCallback(this.status, this.responseText);
 
             return;
         }
 
-        document.title = targetRoute.title + " - Twilight Sparkle Forum";
         targetRoute.successCallback(this.responseText);
     };
-    xhr.send();
+    if (!formData) {
+        xhr.send();
+    }
+    else {
+        xhr.send(formData);
+    }
 }
 
 

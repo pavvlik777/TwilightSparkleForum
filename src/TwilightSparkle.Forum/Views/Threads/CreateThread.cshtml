@@ -3,11 +3,10 @@
     ViewData["Title"] = "Create thread";
 }
 
-<main>
+<main id="main-content">
     <div id="site-messages"></div>
     <link rel="stylesheet" type="text/css" href="~/css/thread-management.css" />
-    @using (Html.BeginForm("CreateThread", "Threads", FormMethod.Post, htmlAttributes: new { id = "create-thread-form", @class = "thread-form" }))
-    {
+    <form action="/Threads/CreateThread" method="post" id="create-thread-form" class="thread-form">
         @Html.HiddenFor(m => m.SectionName)
 
         <h2>Create thread</h2>
@@ -45,13 +44,10 @@
                     <div id="output-area"></div>
                     <p class="preview-message">Preview Mode</p>
                 </div>
-                <script src="~/markdown/markdown.js"></script>
             </div>
             <div class="control-group">
                 <button type="submit" class="button primary-button">Save thread</button>
             </div>
         </fieldset>
-    }
-    <script src="~/js/thread-management.js"></script>
-    <script src="~/js/main.js"></script>
+    </form>
 </main>

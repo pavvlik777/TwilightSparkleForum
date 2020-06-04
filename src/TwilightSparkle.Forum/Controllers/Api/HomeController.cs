@@ -31,6 +31,19 @@ namespace TwilightSparkle.Forum.Controllers
         }
 
 
+        [Route("App")]
+        public async Task<IActionResult> App()
+        {
+            var content = await this.RenderViewToStringAsync("/Views/Home/App.cshtml");
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = content
+            };
+        }
+
         [Route("Index")]
         public async Task<IActionResult> Index()
         {
@@ -72,9 +85,9 @@ namespace TwilightSparkle.Forum.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveChanges(UserProfileViewModel model)
+        [Route("SaveChanges")]
+        public async Task<IActionResult> SaveChanges([FromForm]UserProfileViewModel model)
         {
-            throw new NotImplementedException();
             if (!User.Identity.IsAuthenticated)
             {
                 return Unauthorized();
@@ -86,12 +99,16 @@ namespace TwilightSparkle.Forum.Controllers
             if (!updateResult.IsSuccess)
             {
                 var errorMessage = GetErrorMessage(updateResult.ErrorType);
-                ModelState.AddModelError("", errorMessage);
 
-                return RedirectToAction("Profile");
+                return new ContentResult
+                {
+                    ContentType = "application/json",
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = errorMessage
+                };
             }
 
-            return RedirectToAction("Profile");
+            return Ok();
         }
 
 

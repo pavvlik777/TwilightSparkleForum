@@ -3,31 +3,30 @@
     ViewData["Title"] = "Section";
 }
 
-<aside>
+<aside id="sidebar-content">
     <nav>
         @foreach (var section in Model.Sections)
         {
-            <div>
-                @Html.ActionLink(section.SectionName, "SectionThreads", "Threads", new { sectionName = section.SectionName }, new { @class = "link" })
-            </div>
+        <div>
+            <a href="/Threads/SectionThreads?sectionName=@(section.SectionName)" class="forum-link link">@(section.SectionName)</a>
+        </div>
         }
     </nav>
 </aside>
-<main>
+<main id="main-content">
     <div id="site-messages"></div>
     @if (User.Identity.IsAuthenticated)
     {
-        <button type="button" onclick="location.href = '@Url.Action("CreateThread", "Threads", new { sectionName = Model.SectionName })';" class="button">Create thread</button>
+        <button type="button" data-id="@(Model.SectionName)" id="create-thread-button" class="button">Create thread</button>
     }
     @foreach (var thread in Model.SectionThreads)
     {
         <article class="thread">
-            <div class="thread-header">
-                <div class="thread-name">@(thread.Title)</div>
-                <div class="thread-author-name">Author - @(thread.AuthorNickname)</div>
+            <div class="header">
+                <h1 class="thread-name">@(thread.Title)</h1>
+                <h2 class="thread-author-name">Author - @(thread.AuthorNickname)</h2>
             </div>
             <div class="thread-content">@Html.Raw(thread.Content)</div>
         </article>
     }
-    <script src="~/js/main.js"></script>
 </main>

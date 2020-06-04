@@ -121,6 +121,11 @@ header .menu-list {
     padding: .5em 1em;
 }
 
+.menu-list input.menu-link {
+    font-size: 1em;
+    cursor: pointer;
+}
+
 body > aside {
     display: flex;
     align-self: flex-start;
@@ -219,6 +224,10 @@ img.round {
 .alert {
     padding: 10px;
 }
+
+    .alert.success {
+        background-color: #4cac0f;
+    }
 
     .alert.error {
         background-color: #f44336;

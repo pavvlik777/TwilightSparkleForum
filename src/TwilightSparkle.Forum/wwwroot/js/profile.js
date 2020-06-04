@@ -99,3 +99,16 @@ window.onclick = function (event) {
 
 
 document.getElementById("default-tab").click();
+
+var userDataForm = document.getElementById("user-data-form");
+
+userDataForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    let imageExternalIdInput = userDataForm.querySelector("#hidden-upload-image-url");
+    let data = new FormData();
+    data.append('ImageExternalId', imageExternalIdInput.value);
+
+    const urlObj = new URL(userDataForm.action);
+    sendRequest(urlObj.pathname, urlObj.search, "POST", data);
+});

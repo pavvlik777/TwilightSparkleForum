@@ -6,8 +6,7 @@
 <main id="main-content">
     <div id="site-messages"></div>
     <link rel="stylesheet" type="text/css" href="~/css/authentication.css" />
-    @using (Html.BeginForm("SignIn", "Authentication"))
-    {
+    <form action="/Authentication/SignIn" method="post" id="sign-in-form">
         <h1>Sign in</h1>
         <fieldset>
             <div class="control-group">
@@ -30,5 +29,5 @@
                 <input class="button primary-button" type="submit" value="Sign in" />
             </div>
         </fieldset>
-    }
+    </form>
 </main>

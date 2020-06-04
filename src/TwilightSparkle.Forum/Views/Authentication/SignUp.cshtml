@@ -6,11 +6,9 @@
 <main id="main-content">
     <div id="site-messages"></div>
     <link rel="stylesheet" type="text/css" href="~/css/authentication.css" />
-    @using (Html.BeginForm("SignUp", "Authentication"))
-    {
+    <form action="/Authentication/SignUp" method="post" id="sign-up-form">
         <h1>Sign up</h1>
         <fieldset>
-            @Html.ValidationSummary(true)
             <div class="control-group">
                 @Html.LabelFor(m => m.Username)
                 @Html.TextBoxFor(m => m.Username, htmlAttributes: new
@@ -59,5 +57,5 @@
                 <input class="button primary-button" type="submit" value="Sign up" />
             </div>
         </fieldset>
-    }
+    </form>
 </main>
