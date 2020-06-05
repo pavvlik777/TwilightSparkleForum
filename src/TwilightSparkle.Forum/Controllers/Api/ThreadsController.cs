@@ -76,7 +76,7 @@ namespace TwilightSparkle.Forum.Controllers
                 return Unauthorized();
             }
 
-            var createResult = await _threadsManagementService.CreateThread(model.Title, model.Content, model.SectionName, User.Identity.Name);
+            var createResult = await _threadsManagementService.CreateThreadAsync(model.Title, model.Content, model.SectionName, User.Identity.Name);
             if (!createResult.IsSuccess)
             {
                 var errorMessage = GetErrorMessage(createResult.ErrorType);
@@ -109,6 +109,31 @@ namespace TwilightSparkle.Forum.Controllers
             };
         }
 
+        [HttpPost]
+        [Route("DeleteThread")]
+        public async Task<IActionResult> DeleteThread([FromQuery]int threadId)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+
+            var deleteResult = await _threadsManagementService.DeleteThreadAsync(threadId, User.Identity.Name);
+            if (!deleteResult.IsSuccess)
+            {
+                var errorMessage = GetErrorMessage(deleteResult.ErrorType);
+
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = errorMessage
+                };
+            }
+
+            return Ok();
+        }
+
 
         private ThreadDetailsViewModel GetModel(IReadOnlyCollection<Section> sections, Thread thread)
         {
@@ -124,8 +149,10 @@ namespace TwilightSparkle.Forum.Controllers
                 Title = thread.Title
             };
 
+            var isAuthor = User.Identity.IsAuthenticated ? thread.Author.Username == User.Identity.Name : false;
             var model = new ThreadDetailsViewModel
             {
+                IsAuthor = isAuthor,
                 Sections = sectionModels,
                 Thread = threadModel
             };
@@ -164,6 +191,19 @@ namespace TwilightSparkle.Forum.Controllers
                     return "Invalid title";
                 case CreateThreadErrorType.InvalidContent:
                     return "Invalid content";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(error), error, null);
+            }
+        }
+
+        private string GetErrorMessage(DeleteThreadErrorType error)
+        {
+            switch (error)
+            {
+                case DeleteThreadErrorType.InvalidThread:
+                    return "Invalid thread";
+                case DeleteThreadErrorType.NotAuthor:
+                    return "Forbidden";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(error), error, null);
             }

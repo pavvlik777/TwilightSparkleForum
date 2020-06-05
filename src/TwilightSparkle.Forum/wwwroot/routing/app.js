@@ -80,6 +80,7 @@ let getRoutes = {
         "successCallback": defaultSuccessCallback,
         "errorCallback": handleError,
         "jsFiles": [
+            "/js/specific-thread.js",
             "/js/main.js"
         ]
     },
@@ -175,6 +176,23 @@ let postRoutes = {
             reloadBody("/");
         },
         "errorCallback": handleError,
+        "jsFiles": [
+        ]
+    },
+    "/Threads/DeleteThread": {
+        "apiRoute": "/api/Threads/DeleteThread",
+        "title": "Sign Out",
+        "successCallback": function (responseText) {
+            reloadBody("/", function () { showSuccessMessage("Success"); });
+        },
+        "errorCallback": function (statusCode, responseText) {
+            if (statusCode === 400) {
+                showErrorMessage(responseText);
+            }
+            else {
+                showErrorMessage("Unknown error");
+            }
+        },
         "jsFiles": [
         ]
     },

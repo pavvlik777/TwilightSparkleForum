@@ -293,6 +293,10 @@ article .header {
         font-size: 1.7em;
     }
 
+    article .header #thread-delete-button {
+        margin-bottom: 0.5em;
+    }
+
         article .header .thread-name a {
             color: #ddffff;
             text-decoration: none;

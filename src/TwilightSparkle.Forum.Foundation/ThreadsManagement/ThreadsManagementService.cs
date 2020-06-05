@@ -59,7 +59,7 @@ namespace TwilightSparkle.Forum.Foundation.ThreadsManagement
             return thread;
         }
 
-        public async Task<ServiceResult<CreateThreadErrorType>> CreateThread(string title, string content, string sectionName, string authorNickname)
+        public async Task<ServiceResult<CreateThreadErrorType>> CreateThreadAsync(string title, string content, string sectionName, string authorNickname)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
@@ -91,6 +91,27 @@ namespace TwilightSparkle.Forum.Foundation.ThreadsManagement
             await _unitOfWork.SaveAsync();
 
             return ServiceResult<CreateThreadErrorType>.CreateSuccess();
+        }
+
+        public async Task<ServiceResult<DeleteThreadErrorType>> DeleteThreadAsync(int threadId, string username)
+        {
+            var threadsRepository = _unitOfWork.GetRepository<Thread>();
+            var thread = await threadsRepository.GetFirstOrDefaultAsync(t => t.Id == threadId, t => t.Author, t => t.Section);
+
+            if(thread == null)
+            {
+                return ServiceResult.CreateFailed(DeleteThreadErrorType.InvalidThread);
+            }
+            if(thread.Author.Username != username)
+            {
+                return ServiceResult.CreateFailed(DeleteThreadErrorType.NotAuthor);
+            }
+
+            threadsRepository.Delete(thread);
+
+            await _unitOfWork.SaveAsync();
+
+            return ServiceResult<DeleteThreadErrorType>.CreateSuccess();
         }
     }
 }
