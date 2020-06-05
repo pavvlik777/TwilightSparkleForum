@@ -8,7 +8,13 @@ namespace TwilightSparkle.Forum.Models.Threads
     {
         public bool IsAuthor { get; set; }
 
+        public int LikeStatus { get; set; }
+
+        public int LikesAmount { get; set; }
+
         public IReadOnlyCollection<SectionViewModel> Sections { get; set; }
+
+        public IReadOnlyCollection<CommentThreadViewModel> Comments { get; set; }
 
         public ThreadViewModel Thread { get; set; }
     }

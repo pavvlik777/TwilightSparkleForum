@@ -280,6 +280,7 @@ main article {
 
 article .header {
     display: flex;
+    align-items: center;
     justify-content: space-around;
     border-bottom: 2px solid white;
 }

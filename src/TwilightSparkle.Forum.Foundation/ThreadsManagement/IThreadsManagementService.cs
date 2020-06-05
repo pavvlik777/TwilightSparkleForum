@@ -21,5 +21,15 @@ namespace TwilightSparkle.Forum.Foundation.ThreadsManagement
         Task<ServiceResult<CreateThreadErrorType>> CreateThreadAsync(string title, string content, string sectionName, string authorNickname);
 
         Task<ServiceResult<DeleteThreadErrorType>> DeleteThreadAsync(int threadId, string username);
+
+        Task LikeOrDislikeThreadAsync(int threadId, bool isLike, string username);
+
+        Task<ServiceResult<CommentThreadError>> CommentThreadAsync(int threadId, string content, string authorNickname);
+
+        Task<int> GetAmountOfLikesAsync(int threadId);
+
+        Task<LikeDislike> GetLikeAsync(int threadId, string authorNickname);
+
+        Task<IReadOnlyCollection<Commentary>> GetCommentariesAsync(int threadId);
     }
 }

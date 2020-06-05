@@ -1,8 +1,114 @@
 var threadDeleteButton = document.getElementById("thread-delete-button");
 
-threadDeleteButton.addEventListener("click", function (event) {
-    event.preventDefault();
+if (threadDeleteButton) {
+    threadDeleteButton.addEventListener("click", function (event) {
+        event.preventDefault();
 
-    const threadId = threadDeleteButton.getAttribute("thread-id");
-    sendRequest("/Threads/DeleteThread", "?threadId=" + threadId, "POST");
-})
+        const threadId = threadDeleteButton.getAttribute("thread-id");
+        sendRequest("/Threads/DeleteThread", "?threadId=" + threadId, "POST");
+    })
+}
+
+function registerButtons() {
+    likeButton.onclick = function (event) {
+        event.preventDefault();
+
+        const threadId = likeButton.getAttribute("thread-id");
+        sendRequest("/Threads/LikeThread", "?threadId=" + threadId + "&isLike=true", "POST");
+    };
+    dislikeButton.onclick = function (event) {
+        event.preventDefault();
+
+        const threadId = dislikeButton.getAttribute("thread-id");
+        sendRequest("/Threads/LikeThread", "?threadId=" + threadId + "&isLike=false", "POST");
+    };
+}
+
+var likeButton = document.getElementById("like-thread");
+var dislikeButton = document.getElementById("dislike-thread");
+
+if (likeButton) {
+    registerButtons();
+}
+
+
+var commentThreadForm = document.getElementById("comment-thread-form");
+var threadParsedContent = document.querySelector('#parsed-content');
+
+var textarea = document.querySelector('#input-area');
+var outputArea = document.querySelector('#output-area');
+var previewMessage = document.querySelector('.preview-message');
+
+// -------------------------------------------
+// TOOLBAR
+// -------------------------------------------
+var preview = document.querySelector('#preview');
+var boldButton = document.querySelector('#bold');
+var italicButton = document.querySelector('#italic');
+var heading1Button = document.querySelector('#heading1');
+var heading2Button = document.querySelector('#heading2');
+var heading3Button = document.querySelector('#heading3');
+var linkButton = document.querySelector('#link');
+var imageLinkButton = document.querySelector('#image-link');
+var ulButton = document.querySelector('#list-ul');
+var olButton = document.querySelector('#list-ol');
+
+if (commentThreadForm) {
+    preview.addEventListener('click', () => {
+        output(parse(textarea.value));
+
+        textarea.classList.toggle('hide');
+        outputArea.classList.toggle('show');
+        previewMessage.classList.toggle('show');
+        preview.classList.toggle('active');
+    });
+
+    boldButton.addEventListener('click', () =>
+        insertText(textarea, '****', 'demo', 2, 6)
+    );
+
+    italicButton.addEventListener('click', () =>
+        insertText(textarea, '**', 'demo', 1, 5)
+    );
+
+    heading1Button.addEventListener('click', () =>
+        insertText(textarea, '#', 'heading1', 1, 9)
+    );
+
+    heading2Button.addEventListener('click', () =>
+        insertText(textarea, '##', 'heading2', 2, 10)
+    );
+
+    heading3Button.addEventListener('click', () =>
+        insertText(textarea, '###', 'heading3', 3, 11)
+    );
+
+    linkButton.addEventListener('click', () =>
+        insertText(textarea, '[](https://...)', 'url text', 1, 9)
+    );
+
+    imageLinkButton.addEventListener('click', () =>
+        insertText(textarea, '![](https://...)', 'image title', 2, 13)
+    );
+
+    ulButton.addEventListener('click', function () {
+        insertText(textarea, '* ', 'item', 2, 6);
+    });
+
+    olButton.addEventListener('click', () =>
+        insertText(textarea, '1. ', 'item', 3, 7)
+    );
+
+    commentThreadForm.onsubmit = function (event) {
+        event.preventDefault();
+
+        const threadId = commentThreadForm.getAttribute("thread-id");
+        let data = new FormData();
+        data.append('threadId', threadId);
+        data.append('content', parse(textarea.value));
+
+        const urlObj = new URL(commentThreadForm.action);
+
+        sendRequest(urlObj.pathname, urlObj.search, "POST", data);
+    };
+}

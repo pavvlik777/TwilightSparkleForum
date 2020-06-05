@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using TwilightSparkle.Common.Services;
@@ -98,11 +98,11 @@ namespace TwilightSparkle.Forum.Foundation.ThreadsManagement
             var threadsRepository = _unitOfWork.GetRepository<Thread>();
             var thread = await threadsRepository.GetFirstOrDefaultAsync(t => t.Id == threadId, t => t.Author, t => t.Section);
 
-            if(thread == null)
+            if (thread == null)
             {
                 return ServiceResult.CreateFailed(DeleteThreadErrorType.InvalidThread);
             }
-            if(thread.Author.Username != username)
+            if (thread.Author.Username != username)
             {
                 return ServiceResult.CreateFailed(DeleteThreadErrorType.NotAuthor);
             }
@@ -112,6 +112,92 @@ namespace TwilightSparkle.Forum.Foundation.ThreadsManagement
             await _unitOfWork.SaveAsync();
 
             return ServiceResult<DeleteThreadErrorType>.CreateSuccess();
+        }
+
+        public async Task LikeOrDislikeThreadAsync(int threadId, bool isLike, string username)
+        {
+            var threadsRepository = _unitOfWork.GetRepository<Thread>();
+            var thread = await threadsRepository.GetFirstOrDefaultAsync(t => t.Id == threadId, t => t.Author, t => t.Section);
+            var usersRepository = _unitOfWork.UserRepository;
+            var author = await usersRepository.GetFirstOrDefaultAsync(u => u.Username == username);
+
+            var likesRepository = _unitOfWork.GetRepository<LikeDislike>();
+            var currentLike = await likesRepository.GetFirstOrDefaultAsync(l => l.ThreadId == threadId && l.User == author, l => l.Thread, l => l.User);
+            if (currentLike == null)
+            {
+                currentLike = new LikeDislike
+                {
+                    User = author,
+                    Thread = thread,
+                    IsLike = isLike
+                };
+
+                likesRepository.Create(currentLike);
+            }
+            else if(currentLike.IsLike != isLike)
+            {
+                currentLike.IsLike = isLike;
+
+                likesRepository.Update(currentLike);
+            }
+            else
+            {
+                likesRepository.Delete(currentLike);
+            }
+
+            await _unitOfWork.SaveAsync();
+        }
+
+        public async Task<ServiceResult<CommentThreadError>> CommentThreadAsync(int threadId, string content, string authorNickname)
+        {
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                return ServiceResult.CreateFailed(CommentThreadError.InvalidContent);
+            }
+
+            var threadsRepository = _unitOfWork.GetRepository<Thread>();
+            var thread = await threadsRepository.GetFirstOrDefaultAsync(t => t.Id == threadId, t => t.Author, t => t.Section);
+            var usersRepository = _unitOfWork.UserRepository;
+            var author = await usersRepository.GetFirstOrDefaultAsync(u => u.Username == authorNickname);
+
+            var commentaryRepository = _unitOfWork.GetRepository<Commentary>();
+            var newComment = new Commentary
+            {
+                Author = author,
+                Thread = thread,
+                CommentTime = DateTime.UtcNow,
+                Content = content
+            };
+            commentaryRepository.Create(newComment);
+
+            await _unitOfWork.SaveAsync();
+
+            return ServiceResult<CommentThreadError>.CreateSuccess();
+        }
+
+        public async Task<int> GetAmountOfLikesAsync(int threadId)
+        {
+            var likesRepository = _unitOfWork.GetRepository<LikeDislike>();
+            var likes = await likesRepository.GetWhereAsync(l => l.ThreadId == threadId && l.IsLike);
+            var dislikes = await likesRepository.GetWhereAsync(l => l.ThreadId == threadId && !l.IsLike);
+
+            return likes.Count - dislikes.Count;
+        }
+
+        public async Task<LikeDislike> GetLikeAsync(int threadId, string authorNickname)
+        {
+            var likesRepository = _unitOfWork.GetRepository<LikeDislike>();
+            var like = await likesRepository.GetFirstOrDefaultAsync(l => l.ThreadId == threadId && l.User.Username == authorNickname, l => l.Thread, l => l.User);
+
+            return like;
+        }
+
+        public async Task<IReadOnlyCollection<Commentary>> GetCommentariesAsync(int threadId)
+        {
+            var commentaryRepository = _unitOfWork.GetRepository<Commentary>();
+            var comments = await commentaryRepository.GetWhereAsync(c => c.ThreadId == threadId, c => c.Thread, c => c.Author);
+
+            return comments;
         }
     }
 }

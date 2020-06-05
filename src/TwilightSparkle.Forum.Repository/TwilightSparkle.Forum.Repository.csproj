@@ -7,6 +7,42 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200429225258_UploadImageImprovements.cs" />
     <Compile Remove="Migrations\20200429225258_UploadImageImprovements.Designer.cs" />
+    <Compile Remove="Migrations\20200605175940_Social.cs" />
+    <Compile Remove="Migrations\20200605175940_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605183632_Social.cs" />
+    <Compile Remove="Migrations\20200605183632_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605184234_Social.cs" />
+    <Compile Remove="Migrations\20200605184234_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605184431_Social.cs" />
+    <Compile Remove="Migrations\20200605184431_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605184733_Social.cs" />
+    <Compile Remove="Migrations\20200605184733_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605185148_Social.cs" />
+    <Compile Remove="Migrations\20200605185148_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605185259_Social.cs" />
+    <Compile Remove="Migrations\20200605185259_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605185750_Social.cs" />
+    <Compile Remove="Migrations\20200605185750_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605190134_Social.cs" />
+    <Compile Remove="Migrations\20200605190134_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605190407_Social.cs" />
+    <Compile Remove="Migrations\20200605190407_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605190529_Social.cs" />
+    <Compile Remove="Migrations\20200605190529_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605190657_Social.cs" />
+    <Compile Remove="Migrations\20200605190657_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605190919_Social.cs" />
+    <Compile Remove="Migrations\20200605190919_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605191036_Social.cs" />
+    <Compile Remove="Migrations\20200605191036_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605191141_Social.cs" />
+    <Compile Remove="Migrations\20200605191141_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605191240_Social.cs" />
+    <Compile Remove="Migrations\20200605191240_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605191346_Social.cs" />
+    <Compile Remove="Migrations\20200605191346_Social.Designer.cs" />
+    <Compile Remove="Migrations\20200605191625_Social.cs" />
+    <Compile Remove="Migrations\20200605191625_Social.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

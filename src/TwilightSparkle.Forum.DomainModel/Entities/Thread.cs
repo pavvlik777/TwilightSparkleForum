@@ -1,4 +1,6 @@
-﻿namespace TwilightSparkle.Forum.DomainModel.Entities
+﻿using System.Collections.Generic;
+
+namespace TwilightSparkle.Forum.DomainModel.Entities
 {
     public class Thread
     {
@@ -15,5 +17,9 @@
         public int SectionId { get; set; }
 
         public Section Section { get; set; }
+
+        public ICollection<LikeDislike> Likes { get; set; }
+
+        public ICollection<Commentary> Commentaries { get; set; }
     }
 }
