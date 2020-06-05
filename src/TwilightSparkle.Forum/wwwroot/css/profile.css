@@ -31,7 +31,6 @@ form.tab-form {
         border: none;
         outline: none;
         cursor: pointer;
-        padding: 14px 16px;
         transition: 0.3s;
         list-style: none;
     }
@@ -40,12 +39,16 @@ form.tab-form {
             float: right;
         }
 
-        .tab-list li a {
+        .tab-list li .ui-tab {
+            padding: 14px 16px;
+            background: none;
             color: #6FBEF3;
             text-decoration: none;
+            border: none;
+            font-size: 1em;
         }
 
-            .tab-list li a:active {
+            .tab-list li .ui-tab:hover {
                 color: #6FBEF3;
                 text-decoration: none;
             }
@@ -57,6 +60,10 @@ form.tab-form {
         .tab-list li.save-changes {
             cursor: default;
         }
+
+            .tab-list li.save-changes button {
+                margin: .5em 0 1.5em 0;
+            }
 
         .tab-list li.active {
             cursor: default;
@@ -89,7 +96,6 @@ form.tab-form {
 
     .tab-panel section {
         display: flex;
-        justify-content: space-between;
         height: 100%;
         overflow: hidden;
         padding: 0 15px 10px 15px;
@@ -214,6 +220,12 @@ section .column.column-2 {
 
 section .thread-details-group ~ .thread-details-group {
     margin-top: 1.5em;
+}
+
+#threads-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
     .thread-details-group a {

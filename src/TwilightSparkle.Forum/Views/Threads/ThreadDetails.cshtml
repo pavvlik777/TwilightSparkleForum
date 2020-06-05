@@ -3,22 +3,32 @@
     ViewData["Title"] = "Thread details";
 }
 
-<section id="sidebar">
+<aside id="sidebar-content">
     <nav>
         @foreach (var section in Model.Sections)
         {
             <div>
-                @Html.ActionLink(section.SectionName, "SectionThreads", "Threads", new { sectionName = section.SectionName }, new { @class = "link" })
+                <a href="/Threads/SectionThreads?sectionName=@(section.SectionName)" class="forum-link link">@(section.SectionName)</a>
             </div>
         }
     </nav>
-</section>
-<section id="content">
+</aside>
+<main id="main-content">
+    <div id="site-messages"></div>
+    <div id="loading" class="hide">
+        <img width="200" height="200" border="0" alt="My Little Pony" src="~/images/loading.gif">
+        <br />
+        <div class="loading-text">Please wait...</div>
+    </div>
     <article class="thread">
-        <div class="thread-header">
-            <div class="thread-name">@(Model.Thread.Title)</div>
-            <div class="thread-author-name">Author - @(Model.Thread.AuthorNickname)</div>
+        <div class="header">
+            <h1 class="thread-name">@(Model.Thread.Title)</h1>
+            <h2 class="thread-author-name">Author - @(Model.Thread.AuthorNickname)</h2>
+            @if (Model.IsAuthor)
+            {
+                <button type="button" class="button secondary-button" thread-id="@(Model.Thread.ThreadId)" id="thread-delete-button">Delete thread</button>
+            }
         </div>
         <div class="thread-content">@Html.Raw(Model.Thread.Content)</div>
     </article>
-</section>
+</main>

@@ -1,0 +1,45 @@
+﻿@using TwilightSparkle.Forum.IdentityExtensions
+@{
+    Layout = null;
+    ViewData["Title"] = "Index";
+}
+
+<body>
+    <header>
+        <nav>
+            <a class="menu-heading forum-link" href="/Home/Index">Twilight Sparkle Forum</a>
+
+            <ul class="menu-list">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="menu-item">
+                        <a class="forum-link" href="/Home/Profile">
+                            <img id="header-user-profile-image" src="@Url.GetProfileImageUrl()" width="45" height="45" />
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link forum-link" href="/Home/Profile">@User.Identity.Name</a>
+                    </li>
+                    <li class="menu-item">
+                        <form action="/Authentication/SignOut" method="post" id="sign-out-form">
+                            <input type="submit" class="menu-link" value="Sign out" />
+                        </form>
+                    </li>
+                }
+                else
+                {
+                    <li class="menu-item">
+                        <a class="menu-link forum-link" href="/Authentication/SignIn">Sign In</a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link forum-link" href="/Authentication/SignUp">Sign Up</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </header>
+    <main id="main-content">
+        <!--WILL BE REPLACED-->
+    </main>
+    <script src="~/routing/app.js"></script>
+</body>

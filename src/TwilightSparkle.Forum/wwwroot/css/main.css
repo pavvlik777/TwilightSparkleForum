@@ -55,6 +55,14 @@ h1, h2, h3, h4, h5, h6, h7, h8 {
         margin: 0;
     }
 
+.error-page-message {
+    margin: auto;
+    font-size: 2em;
+    background: #2d3e50;
+    padding: 3em;
+    text-align: center;
+}
+
 /*HEADER*/
 body > header {
     display: flex;
@@ -119,6 +127,11 @@ header .menu-list {
     text-decoration: none;
     color: #6FBEF3;
     padding: .5em 1em;
+}
+
+.menu-list input.menu-link {
+    font-size: 1em;
+    cursor: pointer;
 }
 
 body > aside {
@@ -220,6 +233,10 @@ img.round {
     padding: 10px;
 }
 
+    .alert.success {
+        background-color: #4cac0f;
+    }
+
     .alert.error {
         background-color: #f44336;
     }
@@ -276,11 +293,40 @@ article .header {
         font-size: 1.7em;
     }
 
-article h1.header .thread-author-name {
-    font-size: 0.8em;
-}
+    article .header #thread-delete-button {
+        margin-bottom: 0.5em;
+    }
+
+        article .header .thread-name a {
+            color: #ddffff;
+            text-decoration: none;
+        }
+
+    article .header .thread-author-name {
+        font-size: 0.8em;
+    }
 
 article .thread-content {
     text-align: initial;
     margin-top: 1.5em;
 }
+
+#loading {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 35%;
+    right: 45%;
+    z-index: 100;
+    background: #2b69aa57;
+}
+
+    #loading.hide {
+        display: none;
+    }
+
+    #loading .loading-text {
+        color: #17fc38;
+        text-align: center;
+        font-size: 1.5em;
+    }

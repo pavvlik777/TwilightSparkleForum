@@ -3,61 +3,59 @@
     ViewData["Title"] = "Sign up";
 }
 
-<link rel="stylesheet" type="text/css" href="~/css/authentication.css" />
-@using (Html.BeginForm("SignUp", "Authentication"))
-{
-    <h1>Sign up</h1>
-    <fieldset>
-        @Html.ValidationSummary(true)
-        <div class="control-group">
-            @Html.LabelFor(m => m.Username)
-            @Html.TextBoxFor(m => m.Username, htmlAttributes: new
-            {
-                placeholder = "Username...",
-                maxlength = 255
-            })
-        </div>
-        <div class="control-group">
-            @Html.LabelFor(m => m.Password)
-            @Html.PasswordFor(m => m.Password, htmlAttributes: new
-            {
-                @id = "password-input",
-                autocomplete = "nope",
-                placeholder = "Password...",
-                maxlength = 255
-            })
-        </div>
-        <div class="control-group">
-            @Html.LabelFor(m => m.PasswordConfirmation)
-            @Html.PasswordFor(m => m.PasswordConfirmation, htmlAttributes: new
-            {
-               autocomplete = "off",
-               placeholder = "Password confirmation...",
-               maxlength = 255
-            })
-        </div>
-        <div class="control-group">
-            <div id="password-info">
-                <strong>Password must:</strong>
-                <ul>
-                    <li id="length" class="invalid">must contain at least 8 symbols;</li>
-                    <li id="letter" class="invalid">must contain lower case letters (a - z);</li>
-                    <li id="capital" class="invalid">must contain upper case letters (A - Z);</li>
-                    <li id="number" class="invalid">must contain numbers (0 - 9);</li>
-                </ul>
+<main id="main-content">
+    <div id="site-messages"></div>
+    <link rel="stylesheet" type="text/css" href="~/css/authentication.css" />
+    <form action="/Authentication/SignUp" method="post" id="sign-up-form">
+        <h1>Sign up</h1>
+        <fieldset>
+            <div class="control-group">
+                @Html.LabelFor(m => m.Username)
+                @Html.TextBoxFor(m => m.Username, htmlAttributes: new
+                {
+                    placeholder = "Username...",
+                    maxlength = 255
+                })
             </div>
-        </div>
-        <div class="control-group">
-            @Html.LabelFor(m => m.Email)
-            @Html.TextBoxFor(m => m.Email, htmlAttributes: new
-            {
-                placeholder = "Email...",
-                maxlength = 255
-           })
-        </div>
-        <div class="control-footer">
-            <input class="button primary-button" type="submit" value="Sign up" />
-        </div>
-    </fieldset>
-}
-<script src="~/js/authentication.js"></script>
+            <div class="control-group">
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password, htmlAttributes: new
+                {
+                    placeholder = "Password...",
+                    maxlength = 255
+                })
+            </div>
+            <div class="control-group">
+                @Html.LabelFor(m => m.PasswordConfirmation)
+                @Html.PasswordFor(m => m.PasswordConfirmation, htmlAttributes: new
+                {
+                   autocomplete = "off",
+                   placeholder = "Password confirmation...",
+                   maxlength = 255
+                })
+            </div>
+            <div class="control-group">
+                <div id="password-info">
+                    <strong>Password must:</strong>
+                    <ul>
+                        <li id="length" class="invalid">must contain at least 8 symbols;</li>
+                        <li id="letter" class="invalid">must contain lower case letters (a - z);</li>
+                        <li id="capital" class="invalid">must contain upper case letters (A - Z);</li>
+                        <li id="number" class="invalid">must contain numbers (0 - 9);</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="control-group">
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email, htmlAttributes: new
+                {
+                    placeholder = "Email...",
+                    maxlength = 255
+               })
+            </div>
+            <div class="control-footer">
+                <input class="button primary-button" type="submit" value="Sign up" />
+            </div>
+        </fieldset>
+    </form>
+</main>

@@ -111,6 +111,11 @@ namespace TwilightSparkle.Forum.Foundation.Authentication
 
         private static bool CheckIfValidUsername(string username)
         {
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                return false;
+            }
+
             var isUsernameValid = UsernameRegex.IsMatch(username);
 
             return isUsernameValid;
@@ -118,6 +123,11 @@ namespace TwilightSparkle.Forum.Foundation.Authentication
 
         private static bool CheckIfValidPassword(string password)
         {
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                return false;
+            }
+
             var isPasswordValid = PasswordRegex.IsMatch(password);
 
             return isPasswordValid;
@@ -125,6 +135,11 @@ namespace TwilightSparkle.Forum.Foundation.Authentication
 
         private static bool CheckIfValidEmail(string email)
         {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return false;
+            }
+
             var isEmailValid = EmailRegex.IsMatch(email);
 
             return isEmailValid;

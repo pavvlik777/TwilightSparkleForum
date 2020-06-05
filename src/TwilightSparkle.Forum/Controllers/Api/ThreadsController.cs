@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using TwilightSparkle.Forum.ControllerExtenstions;
 using TwilightSparkle.Forum.DomainModel.Entities;
 using TwilightSparkle.Forum.Foundation.ThreadsManagement;
 using TwilightSparkle.Forum.Models.Common;
@@ -13,7 +14,8 @@ using TwilightSparkle.Forum.Models.Threads;
 
 namespace TwilightSparkle.Forum.Controllers
 {
-    [Authorize]
+    [Route("api/[controller]")]
+    [ApiController]
     public class ThreadsController : Controller
     {
         private readonly IThreadsManagementService _threadsManagementService;
@@ -25,54 +27,111 @@ namespace TwilightSparkle.Forum.Controllers
         }
 
 
-        [AllowAnonymous]
-        public async Task<IActionResult> SectionThreads(string sectionName)
+        [Route("SectionThreads")]
+        public async Task<IActionResult> SectionThreads([FromQuery]string sectionName)
         {
             var sections = await _threadsManagementService.GetSectionsAsync();
             var threads = await _threadsManagementService.GetSectionThreadsAsync(sectionName);
             var model = GetModel(sectionName, sections, threads);
 
-            return View(model);
+            var content = await this.RenderViewToStringAsync("/Views/Threads/SectionThreads.cshtml", model);
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = content
+            };
         }
 
-        public IActionResult CreateThread(string sectionName)
+        [Route("CreateThread")]
+        public async Task<IActionResult> CreateThread([FromQuery]string sectionName)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+
             var model = new CreateThreadViewModel
             {
                 SectionName = sectionName
             };
 
-            return View(model);
+            var content = await this.RenderViewToStringAsync("/Views/Threads/CreateThread.cshtml", model);
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = content
+            };
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateThread(CreateThreadViewModel model)
+        [Route("CreateThread")]
+        public async Task<IActionResult> CreateThread([FromForm]CreateThreadViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (!User.Identity.IsAuthenticated)
             {
-                return View(model);
+                return Unauthorized();
             }
 
-            var createResult = await _threadsManagementService.CreateThread(model.Title, model.Content, model.SectionName, User.Identity.Name);
+            var createResult = await _threadsManagementService.CreateThreadAsync(model.Title, model.Content, model.SectionName, User.Identity.Name);
             if (!createResult.IsSuccess)
             {
                 var errorMessage = GetErrorMessage(createResult.ErrorType);
-                ModelState.AddModelError("", errorMessage);
 
-                return View(model);
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = errorMessage
+                };
             }
 
-            return RedirectToAction("Index", "Home");
+            return Ok();
         }
 
-        [AllowAnonymous]
+        [Route("ThreadsDetails")]
         public async Task<IActionResult> ThreadDetails(int threadId)
         {
             var sections = await _threadsManagementService.GetSectionsAsync();
             var thread = await _threadsManagementService.GetThreadAsync(threadId);
             var model = GetModel(sections, thread);
 
-            return View(model);
+            var content = await this.RenderViewToStringAsync("/Views/Threads/ThreadDetails.cshtml", model);
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = content
+            };
+        }
+
+        [HttpPost]
+        [Route("DeleteThread")]
+        public async Task<IActionResult> DeleteThread([FromQuery]int threadId)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+
+            var deleteResult = await _threadsManagementService.DeleteThreadAsync(threadId, User.Identity.Name);
+            if (!deleteResult.IsSuccess)
+            {
+                var errorMessage = GetErrorMessage(deleteResult.ErrorType);
+
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = errorMessage
+                };
+            }
+
+            return Ok();
         }
 
 
@@ -84,13 +143,16 @@ namespace TwilightSparkle.Forum.Controllers
             }).ToList();
             var threadModel = new ThreadViewModel
             {
+                ThreadId = thread.Id,
                 AuthorNickname = thread.Author.Username,
                 Content = thread.Content,
                 Title = thread.Title
             };
 
+            var isAuthor = User.Identity.IsAuthenticated ? thread.Author.Username == User.Identity.Name : false;
             var model = new ThreadDetailsViewModel
             {
+                IsAuthor = isAuthor,
                 Sections = sectionModels,
                 Thread = threadModel
             };
@@ -106,6 +168,7 @@ namespace TwilightSparkle.Forum.Controllers
             }).ToList();
             var threadModels = sectionThreads.Select(t => new ThreadViewModel
             {
+                ThreadId = t.Id,
                 Title = t.Title,
                 Content = t.Content,
                 AuthorNickname = t.Author.Username
@@ -128,6 +191,19 @@ namespace TwilightSparkle.Forum.Controllers
                     return "Invalid title";
                 case CreateThreadErrorType.InvalidContent:
                     return "Invalid content";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(error), error, null);
+            }
+        }
+
+        private string GetErrorMessage(DeleteThreadErrorType error)
+        {
+            switch (error)
+            {
+                case DeleteThreadErrorType.InvalidThread:
+                    return "Invalid thread";
+                case DeleteThreadErrorType.NotAuthor:
+                    return "Forbidden";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(error), error, null);
             }

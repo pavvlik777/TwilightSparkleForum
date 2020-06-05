@@ -54,6 +54,13 @@ form .control-group {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 28em;
+}
+
+@media only screen and (max-width: 1050px) {
+    #content-editor {
+        width: 21em;
+    }
 }
 
     #content-editor .toolbar {
@@ -111,6 +118,7 @@ form .control-group {
             }
 
         #content-editor #input-output #output-area {
+            word-wrap: break-word;
             display: none;
             background: #1f2428;
             padding: 10px;

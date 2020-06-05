@@ -18,6 +18,8 @@ namespace TwilightSparkle.Forum.Foundation.ThreadsManagement
 
         Task<Thread> GetThreadAsync(int threadId);
 
-        Task<ServiceResult<CreateThreadErrorType>> CreateThread(string title, string content, string sectionName, string authorNickname);
+        Task<ServiceResult<CreateThreadErrorType>> CreateThreadAsync(string title, string content, string sectionName, string authorNickname);
+
+        Task<ServiceResult<DeleteThreadErrorType>> DeleteThreadAsync(int threadId, string username);
     }
 }

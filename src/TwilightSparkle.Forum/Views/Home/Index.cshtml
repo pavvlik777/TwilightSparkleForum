@@ -1,27 +1,34 @@
 ﻿@model TwilightSparkle.Forum.Models.Home.IndexViewModel
 @{
+    Layout = null;
     ViewData["Title"] = "Home";
 }
 
-<section id="sidebar">
+<aside id="sidebar-content">
     <nav>
         @foreach (var section in Model.Sections)
         {
-            <div>
-                @Html.ActionLink(section.SectionName, "SectionThreads", "Threads", new { sectionName = section.SectionName }, new { @class = "link" })
-            </div>
+        <div>
+            <a href="/Threads/SectionThreads?sectionName=@(section.SectionName)" class="forum-link link">@(section.SectionName)</a>
+        </div>
         }
     </nav>
-</section>
-<section id="content">
+</aside>
+<main id="main-content">
+    <div id="site-messages"></div>
+    <div id="loading" class="hide">
+        <img width="200" height="200" border="0" alt="My Little Pony" src="~/images/loading.gif">
+        <br />
+        <div class="loading-text">Please wait...</div>
+    </div>
     @foreach (var thread in Model.PopularThreads)
     {
         <article class="thread">
-            <div class="thread-header">
-                <div class="thread-name">@(thread.Title)</div>
-                <div class="thread-author-name">Author - @(thread.AuthorNickname)</div>
+            <div class="header">
+                <h1 class="thread-name"><a class="forum-link" href="/Threads/ThreadsDetails?threadId=@thread.ThreadId">@(thread.Title)</a></h1>
+                <h2 class="thread-author-name">Author - @(thread.AuthorNickname)</h2>
             </div>
             <div class="thread-content">@Html.Raw(thread.Content)</div>
         </article>
     }
-</section>
+</main>
