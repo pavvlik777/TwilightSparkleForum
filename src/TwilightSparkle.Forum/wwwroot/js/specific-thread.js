@@ -106,6 +106,7 @@ if (commentThreadForm) {
         let data = new FormData();
         data.append('threadId', threadId);
         data.append('content', parse(textarea.value));
+        data.append('unparsedContent', textarea.value);
 
         const urlObj = new URL(commentThreadForm.action);
 

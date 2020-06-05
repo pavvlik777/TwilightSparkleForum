@@ -69,11 +69,20 @@ namespace TwilightSparkle.Forum.Controllers
 
         [HttpPost]
         [Route("CreateThread")]
-        public async Task<IActionResult> CreateThread([FromForm]CreateThreadViewModel model)
+        public async Task<IActionResult> CreateThread([FromForm]CreateThreadViewModel model, [FromForm]string unparsedContent)
         {
             if (!User.Identity.IsAuthenticated)
             {
                 return Unauthorized();
+            }
+            if (string.IsNullOrWhiteSpace(unparsedContent))
+            {
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = "Content can't be empty"
+                };
             }
 
             var createResult = await _threadsManagementService.CreateThreadAsync(model.Title, model.Content, model.SectionName, User.Identity.Name);
@@ -157,11 +166,20 @@ namespace TwilightSparkle.Forum.Controllers
 
         [HttpPost]
         [Route("CommentThread")]
-        public async Task<IActionResult> CommentThread([FromForm]int threadId, [FromForm]string content)
+        public async Task<IActionResult> CommentThread([FromForm]int threadId, [FromForm]string content, [FromForm]string unparsedContent)
         {
             if (!User.Identity.IsAuthenticated)
             {
                 return Unauthorized();
+            }
+            if (string.IsNullOrWhiteSpace(unparsedContent))
+            {
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = "Content can't be empty"
+                };
             }
 
             var commentResult = await _threadsManagementService.CommentThreadAsync(threadId, content, User.Identity.Name);

@@ -223,6 +223,7 @@ let postRoutes = {
                 likesSection.outerHTML = responseText;
             }
             reloadScript("/js/specific-thread.js");
+            showSuccessMessage("Success");
         },
         "errorCallback": function (statusCode, responseText) {
             if (statusCode === 400) {
@@ -244,6 +245,7 @@ let postRoutes = {
                 commentsSection.outerHTML = responseText;
             }
             reloadScript("/js/specific-thread.js");
+            showSuccessMessage("Added comment");
         },
         "errorCallback": function (statusCode, responseText) {
             if (statusCode === 400) {

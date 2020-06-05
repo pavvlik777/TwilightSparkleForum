@@ -73,6 +73,7 @@ createThreadForm.addEventListener("submit", function (event) {
     let data = new FormData();
     data.append('Title', titleTextbox.value);
     data.append('Content', parse(textarea.value));
+    data.append('unparsedContent', textarea.value);
     data.append('SectionName', sectionNameInput.value);
 
     const urlObj = new URL(createThreadForm.action);
