@@ -1,4 +1,5 @@
-﻿@model TwilightSparkle.Forum.Models.Threads.ThreadDetailsViewModel
+﻿@using System.Globalization
+@model TwilightSparkle.Forum.Models.Threads.ThreadDetailsViewModel
 @{
     ViewData["Title"] = "Thread details";
 }
@@ -9,7 +10,7 @@
         <article class="thread-comment">
             <div class="header">
                 <h2 class="comment-author">
-                    @comment.AuthorNickname On <time datetime="@comment.CommentTime.ToShortDateString()">@comment.CommentTime.ToLocalTime()</time>
+                    @comment.AuthorNickname On <time>@comment.CommentTime.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture)</time>
                 </h2>
             </div>
             <div class="comment-content">

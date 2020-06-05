@@ -77,7 +77,28 @@ let getRoutes = {
     '/Threads/ThreadsDetails': {
         "apiRoute": "/api/Threads/ThreadsDetails",
         "title": "Thread details",
-        "successCallback": defaultSuccessCallback,
+        "successCallback": function (responseText) {
+            document.title = this.title + " - Twilight Sparkle Forum";
+            let sidebarContent = document.getElementById('sidebar-content');
+            if (sidebarContent) {
+                sidebarContent.remove();
+            }
+            let mainContent = document.getElementById('main-content');
+            if (mainContent) {
+                mainContent.outerHTML = responseText;
+            }
+
+            for (let i = 0; i < this.jsFiles.length; i++) {
+                getScript(this.jsFiles[i]);
+            }
+            registerLinks();
+            let commentsSection = document.getElementById("thread-comments");
+            let times = commentsSection.getElementsByTagName("time");
+            for (let i = 0; i < times.length; i++) {
+                let time = new Date(times[i].innerText);
+                times[i].innerHTML = time.toLocaleString();
+            }
+        },
         "errorCallback": handleError,
         "jsFiles": [
             "/markdown/markdown.js",
@@ -245,6 +266,12 @@ let postRoutes = {
                 commentsSection.outerHTML = responseText;
             }
             reloadScript("/js/specific-thread.js");
+            commentsSection = document.getElementById("thread-comments");
+            let times = commentsSection.getElementsByTagName("time");
+            for (let i = 0; i < times.length; i++) {
+                let time = new Date(times[i].innerText);
+                times[i].innerHTML = time.toLocaleString();
+            }
             showSuccessMessage("Added comment");
         },
         "errorCallback": function (statusCode, responseText) {
