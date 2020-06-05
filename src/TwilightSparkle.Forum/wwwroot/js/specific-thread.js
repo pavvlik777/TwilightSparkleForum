@@ -1,12 +1,12 @@
 var threadDeleteButton = document.getElementById("thread-delete-button");
 
 if (threadDeleteButton) {
-    threadDeleteButton.addEventListener("click", function (event) {
+    threadDeleteButton.onclick = function (event) {
         event.preventDefault();
 
         const threadId = threadDeleteButton.getAttribute("thread-id");
         sendRequest("/Threads/DeleteThread", "?threadId=" + threadId, "POST");
-    })
+    };
 }
 
 function registerButtons() {
