@@ -10,7 +10,7 @@ function openTab(event, tabName) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
     document.getElementById(tabName).classList.remove("hidden");;
-    event.currentTarget.className += " active";
+    event.currentTarget.parentNode.className += " active";
 }
 
 function toggleElement(element) {
@@ -98,7 +98,7 @@ window.onclick = function (event) {
 }
 
 
-document.getElementById("default-tab").click();
+document.getElementById("identity-list-item").click();
 
 var userDataForm = document.getElementById("user-data-form");
 

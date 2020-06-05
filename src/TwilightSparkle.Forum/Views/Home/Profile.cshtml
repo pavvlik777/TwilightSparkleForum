@@ -18,14 +18,14 @@
             @Html.HiddenFor(m => m.ProfileImageUrl)
             @Html.HiddenFor(m => m.UploadImageUrl)
             <ul class="tab-list">
-                <li id="identity-list-item">
-                    <div id="default-tab" class="ui-tab">Identity</div>
+                <li>
+                    <button type="button" id="identity-list-item" class="ui-tab">Identity</button>
                 </li>
-                <li id="threads-list-item">
-                    <div class="ui-tab">Threads</div>
+                <li>
+                    <button type="button" id="threads-list-item" class="ui-tab">Threads</button>
                 </li>
                 <li class="save-changes right">
-                    <button class="button secondary-button" id="save-changes-button" disabled type="submit">Save changes</button>
+                    <button type="button" class="button secondary-button" id="save-changes-button" disabled type="submit">Save changes</button>
                 </li>
             </ul>
             <div id="identity-tab" class="tab-panel">
