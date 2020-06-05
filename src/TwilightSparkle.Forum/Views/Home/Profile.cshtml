@@ -19,10 +19,10 @@
             @Html.HiddenFor(m => m.UploadImageUrl)
             <ul class="tab-list">
                 <li id="identity-list-item">
-                    <a href="javascript:;" id="default-tab" class="ui-tab">Identity</a>
+                    <div id="default-tab" class="ui-tab">Identity</div>
                 </li>
                 <li id="threads-list-item">
-                    <a href="javascript:;" class="ui-tab">Threads</a>
+                    <div class="ui-tab">Threads</div>
                 </li>
                 <li class="save-changes right">
                     <button class="button secondary-button" id="save-changes-button" disabled type="submit">Save changes</button>
@@ -60,12 +60,14 @@
             <div id="threads-tab" class="tab-panel hidden">
                 <h2>User threads</h2>
                 <section>
-                    @foreach (var thread in Model.UserThreads)
-                    {
-                        <div class="control-group thread-details-group">
-                            <a href="/Threads/ThreadsDetails?threadId=@thread.ThreadId" class="forum-link">@thread.Title</a>
-                        </div>
-                    }
+                    <ul id="threads-list">
+                        @foreach (var thread in Model.UserThreads)
+                        {
+                            <li class="control-group thread-details-group">
+                                <a href="/Threads/ThreadsDetails?threadId=@thread.ThreadId" class="forum-link">@thread.Title</a>
+                            </li>
+                        }
+                    </ul>
                 </section>
             </div>
         </form>

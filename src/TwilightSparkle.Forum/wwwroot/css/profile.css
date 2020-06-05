@@ -40,12 +40,12 @@ form.tab-form {
             float: right;
         }
 
-        .tab-list li a {
+        .tab-list li .ui-tab {
             color: #6FBEF3;
             text-decoration: none;
         }
 
-            .tab-list li a:active {
+            .tab-list li .ui-tab:hover {
                 color: #6FBEF3;
                 text-decoration: none;
             }
@@ -213,6 +213,12 @@ section .column.column-2 {
 
 section .thread-details-group ~ .thread-details-group {
     margin-top: 1.5em;
+}
+
+#threads-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
     .thread-details-group a {

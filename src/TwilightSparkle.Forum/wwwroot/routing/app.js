@@ -91,7 +91,6 @@ let getRoutes = {
         "errorCallback": handleError,
         "jsFiles": [
             "/js/thread-management.js",
-            "/markdown/markdown.js",
             "/js/main.js"
         ]
     },
@@ -216,27 +215,23 @@ let postRoutes = {
 }
 
 
-function reloadBody(url, callback = null) {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", "/api/Home/App", true);
-    xhr.onreadystatechange = function () {
-        if (this.readyState !== 4) {
-            return;
-        }
-        if (this.status !== 200) {
-            handleError(this.status);
+async function reloadBody(url, callback = null) {
+    let response = await fetch("/api/Home/App", {
+        method: "GET"
+    });
 
-            return;
-        }
-
+    let responseText = await response.text();
+    if (response.ok) {
         let body = document.getElementsByTagName("body")[0];
         if (body) {
-            body.outerHTML = this.responseText;
+            body.outerHTML = responseText;
         }
 
         urlClickHandler(url, callback);
-    };
-    xhr.send();
+    }
+    else {
+        handleError(response.status);
+    }
 }
 
 function handleError(statusCode) {
@@ -266,7 +261,7 @@ function getScript(source) {
     mainContent.appendChild(script);
 }
 
-function sendRequest(pathname, search, method, formData = null, callback = null) {
+async function sendRequest(pathname, search, method, formData = null, callback = null) {
     const targetRoute = method === "GET" ? getRoutes[pathname] : postRoutes[pathname];
     if (!targetRoute) {
         handleError(404);
@@ -279,28 +274,28 @@ function sendRequest(pathname, search, method, formData = null, callback = null)
     }
     const requestFullRoute = targetRoute.apiRoute + search;
 
-    let xhr = new XMLHttpRequest();
-    xhr.open(method, requestFullRoute, true);
-    xhr.onreadystatechange = function () {
-        if (this.readyState !== 4) {
-            return;
-        }
-        if (this.status !== 200) {
-            targetRoute.errorCallback(this.status, this.responseText);
+    let response = null;
+    if (formData) {
+        response = await fetch(requestFullRoute, {
+            method: method,
+            body: formData
+        });
+    }
+    else {
+        response = await fetch(requestFullRoute, {
+            method: method
+        });
+    }
 
-            return;
-        }
-
-        targetRoute.successCallback(this.responseText);
+    let responseText = await response.text();
+    if (response.ok) {
+        targetRoute.successCallback(responseText);
         if (callback) {
             callback();
         }
-    };
-    if (!formData) {
-        xhr.send();
     }
     else {
-        xhr.send(formData);
+        targetRoute.errorCallback(response.status, responseText);
     }
 }
 
