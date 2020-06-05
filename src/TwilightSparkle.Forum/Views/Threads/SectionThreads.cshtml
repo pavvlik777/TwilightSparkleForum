@@ -15,6 +15,11 @@
 </aside>
 <main id="main-content">
     <div id="site-messages"></div>
+    <div id="loading" class="hide">
+        <img width="200" height="200" border="0" alt="My Little Pony" src="~/images/loading.gif">
+        <br />
+        <div class="loading-text">Please wait...</div>
+    </div>
     @if (User.Identity.IsAuthenticated)
     {
         <button type="button" data-id="@(Model.SectionName)" id="create-thread-button" class="button">Create thread</button>

@@ -155,7 +155,7 @@ let postRoutes = {
         "apiRoute": "/api/Home/SaveChanges",
         "title": "Save Changes",
         "successCallback": function (responseText) {
-            reloadBody("/Home/Profile");
+            reloadBody("/Home/Profile", function () { showSuccessMessage("Success"); });
         },
         "errorCallback": function (statusCode, responseText) {
             if (statusCode === 400) {
@@ -198,7 +198,7 @@ let postRoutes = {
 }
 
 
-function reloadBody(url) {
+function reloadBody(url, callback = null) {
     let xhr = new XMLHttpRequest();
     xhr.open("GET", "/api/Home/App", true);
     xhr.onreadystatechange = function () {
@@ -216,7 +216,7 @@ function reloadBody(url) {
             body.outerHTML = this.responseText;
         }
 
-        urlClickHandler(url);
+        urlClickHandler(url, callback);
     };
     xhr.send();
 }
@@ -248,11 +248,7 @@ function getScript(source) {
     mainContent.appendChild(script);
 }
 
-function sendRequest(pathname, search, method) {
-    sendRequest(pathname, search, method, null);
-}
-
-function sendRequest(pathname, search, method, formData) {
+function sendRequest(pathname, search, method, formData = null, callback = null) {
     const targetRoute = method === "GET" ? getRoutes[pathname] : postRoutes[pathname];
     if (!targetRoute) {
         handleError(404);
@@ -278,6 +274,9 @@ function sendRequest(pathname, search, method, formData) {
         }
 
         targetRoute.successCallback(this.responseText);
+        if (callback) {
+            callback();
+        }
     };
     if (!formData) {
         xhr.send();
@@ -292,11 +291,12 @@ window.onpopstate = () => {
     sendRequest(window.location.pathname, window.location.search, 'GET');
 }
 
-function urlClickHandler(url) {
+function urlClickHandler(url, callback) {
     const urlObj = new URL(window.location.origin + url);
 
     window.history.pushState(null, url, window.location.origin + url);
-    sendRequest(urlObj.pathname, urlObj.search, 'GET');
+    toggleLoadingGif();
+    sendRequest(urlObj.pathname, urlObj.search, 'GET', null, callback);
 }
 
 let registerLinks = () => {
