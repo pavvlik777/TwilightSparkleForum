@@ -118,6 +118,7 @@ namespace TwilightSparkle.Forum.Controllers
             }).ToList();
             var threadModel = new ThreadViewModel
             {
+                ThreadId = thread.Id,
                 AuthorNickname = thread.Author.Username,
                 Content = thread.Content,
                 Title = thread.Title
@@ -140,6 +141,7 @@ namespace TwilightSparkle.Forum.Controllers
             }).ToList();
             var threadModels = sectionThreads.Select(t => new ThreadViewModel
             {
+                ThreadId = t.Id,
                 Title = t.Title,
                 Content = t.Content,
                 AuthorNickname = t.Author.Username

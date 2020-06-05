@@ -125,6 +125,7 @@ namespace TwilightSparkle.Forum.Controllers
             }).ToList();
             var threadModels = popularThreads.Select(t => new ThreadViewModel
             {
+                ThreadId = t.Id,
                 Title = t.Title,
                 Content = t.Content,
                 AuthorNickname = t.Author.Username

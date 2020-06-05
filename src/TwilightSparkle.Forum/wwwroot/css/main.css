@@ -293,6 +293,11 @@ article .header {
         font-size: 1.7em;
     }
 
+        article .header .thread-name a {
+            color: #ddffff;
+            text-decoration: none;
+        }
+
     article .header .thread-author-name {
         font-size: 0.8em;
     }
