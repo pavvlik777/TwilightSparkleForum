@@ -54,50 +54,50 @@ var ulButton = document.querySelector('#list-ul');
 var olButton = document.querySelector('#list-ol');
 
 if (commentThreadForm) {
-    preview.addEventListener('click', () => {
+    preview.onclick = function () {
         output(parse(textarea.value));
 
         textarea.classList.toggle('hide');
         outputArea.classList.toggle('show');
         previewMessage.classList.toggle('show');
         preview.classList.toggle('active');
-    });
+    };
 
-    boldButton.addEventListener('click', () =>
+    boldButton.onclick = function () {
         insertText(textarea, '****', 'demo', 2, 6)
-    );
+    };
 
-    italicButton.addEventListener('click', () =>
+    italicButton.onclick = function () {
         insertText(textarea, '**', 'demo', 1, 5)
-    );
+    };
 
-    heading1Button.addEventListener('click', () =>
+    heading1Button.onclick = function () {
         insertText(textarea, '#', 'heading1', 1, 9)
-    );
+    };
 
-    heading2Button.addEventListener('click', () =>
+    heading2Button.onclick = function () {
         insertText(textarea, '##', 'heading2', 2, 10)
-    );
+    };
 
-    heading3Button.addEventListener('click', () =>
+    heading3Button.onclick = function () {
         insertText(textarea, '###', 'heading3', 3, 11)
-    );
+    };
 
-    linkButton.addEventListener('click', () =>
+    linkButton.onclick = function () {
         insertText(textarea, '[](https://...)', 'url text', 1, 9)
-    );
+    };
 
-    imageLinkButton.addEventListener('click', () =>
+    imageLinkButton.onclick = function () {
         insertText(textarea, '![](https://...)', 'image title', 2, 13)
-    );
+    };
 
-    ulButton.addEventListener('click', function () {
+    ulButton.onclick = function () {
         insertText(textarea, '* ', 'item', 2, 6);
-    });
+    };
 
-    olButton.addEventListener('click', () =>
+    olButton.onclick = function () {
         insertText(textarea, '1. ', 'item', 3, 7)
-    );
+    };
 
     commentThreadForm.onsubmit = function (event) {
         event.preventDefault();
