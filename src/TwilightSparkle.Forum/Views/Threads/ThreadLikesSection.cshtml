@@ -1,0 +1,30 @@
+﻿@model TwilightSparkle.Forum.Models.Threads.ThreadDetailsViewModel
+@{
+    ViewData["Title"] = "Thread details";
+}
+
+<div id="thread-likes-section">
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (Model.LikeStatus == 1)
+        {
+            <button class="like-dislike thread-liked" id="like-thread" thread-id="@(Model.Thread.ThreadId)" type="button">+</button>
+        }
+        else
+        {
+            <button class="like-dislike" id="like-thread" thread-id="@(Model.Thread.ThreadId)" type="button">+</button>
+        }
+    }
+    <h1 id="likes-amount">@Model.LikesAmount</h1>
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (Model.LikeStatus == -1)
+        {
+            <button class="like-dislike thread-disliked" id="dislike-thread" thread-id="@(Model.Thread.ThreadId)" type="button">-</button>
+        }
+        else
+        {
+            <button class="like-dislike" id="dislike-thread" thread-id="@(Model.Thread.ThreadId)" type="button">-</button>
+        }
+    }
+</div>

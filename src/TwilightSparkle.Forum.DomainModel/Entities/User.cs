@@ -1,4 +1,6 @@
-﻿namespace TwilightSparkle.Forum.DomainModel.Entities
+﻿using System.Collections.Generic;
+
+namespace TwilightSparkle.Forum.DomainModel.Entities
 {
     public class User
     {
@@ -13,5 +15,11 @@
         public int? ProfileImageId { get; set; }
 
         public UploadedImage ProfileImage { get; set; }
+
+        public ICollection<Thread> Threads { get; set; }
+
+        public ICollection<LikeDislike> Likes { get; set; }
+
+        public ICollection<Commentary> Commentaries { get; set; }
     }
 }

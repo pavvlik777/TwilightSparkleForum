@@ -1,0 +1,73 @@
+#thread-likes-section {
+    display: flex;
+    padding: .3em;
+}
+
+    #thread-likes-section #like-thread {
+        margin-right: .5em;
+    }
+
+    #thread-likes-section #dislike-thread {
+        margin-left: .5em;
+    }
+
+button.like-dislike {
+    font-size: 1em;
+    border: none;
+    color: white;
+    background-color: #42b8dd;
+}
+
+button.thread-liked {
+    color: green;
+}
+
+button.thread-disliked {
+    color: red;
+}
+
+form.thread-comment-form {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-direction: column;
+    background: #2d3e50;
+    margin: 35px;
+    padding: .5em 1.5em;
+}
+
+#thread-comments {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+    #thread-comments article {
+        background: #111b25;
+    }
+
+article.thread-comment .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: 2px solid white;
+}
+
+    article.thread-comment .header h1, h2, h3, h4, h5, h6, h7, h8 {
+        font-size: 1em;
+        margin: 0;
+    }
+
+    article.thread-comment .header .comment-author {
+        font-size: 1.3em;
+    }
+
+.comment-author time {
+    color: #a3a3ff;
+}
+
+article.thread-comment .comment-content {
+    text-align: initial;
+    margin-top: 1.5em;
+}

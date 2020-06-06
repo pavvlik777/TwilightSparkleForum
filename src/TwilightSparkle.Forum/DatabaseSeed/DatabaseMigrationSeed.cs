@@ -20,7 +20,7 @@ namespace TwilightSparkle.Forum.DatabaseSeed
                 "News",
                 "Arts",
                 "Politics",
-                "Frienship"
+                "Friendship"
             };
             _sectionNames = sectionNames;
         }

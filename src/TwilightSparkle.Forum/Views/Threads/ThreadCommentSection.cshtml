@@ -1,0 +1,21 @@
+﻿@using System.Globalization
+@model TwilightSparkle.Forum.Models.Threads.ThreadDetailsViewModel
+@{
+    ViewData["Title"] = "Thread details";
+}
+
+<div id="thread-comments">
+    @foreach (var comment in Model.Comments)
+    {
+        <article class="thread-comment">
+            <div class="header">
+                <h2 class="comment-author">
+                    @comment.AuthorNickname On <time>@comment.CommentTime.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture)</time>
+                </h2>
+            </div>
+            <div class="comment-content">
+                @Html.Raw(comment.Content)
+            </div>
+        </article>
+    }
+</div>

@@ -69,11 +69,20 @@ namespace TwilightSparkle.Forum.Controllers
 
         [HttpPost]
         [Route("CreateThread")]
-        public async Task<IActionResult> CreateThread([FromForm]CreateThreadViewModel model)
+        public async Task<IActionResult> CreateThread([FromForm]CreateThreadViewModel model, [FromForm]string unparsedContent)
         {
             if (!User.Identity.IsAuthenticated)
             {
                 return Unauthorized();
+            }
+            if (string.IsNullOrWhiteSpace(unparsedContent))
+            {
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = "Content can't be empty"
+                };
             }
 
             var createResult = await _threadsManagementService.CreateThreadAsync(model.Title, model.Content, model.SectionName, User.Identity.Name);
@@ -95,9 +104,7 @@ namespace TwilightSparkle.Forum.Controllers
         [Route("ThreadsDetails")]
         public async Task<IActionResult> ThreadDetails(int threadId)
         {
-            var sections = await _threadsManagementService.GetSectionsAsync();
-            var thread = await _threadsManagementService.GetThreadAsync(threadId);
-            var model = GetModel(sections, thread);
+            var model = await GetThreadViewModelAsync(threadId);
 
             var content = await this.RenderViewToStringAsync("/Views/Threads/ThreadDetails.cshtml", model);
 
@@ -134,12 +141,100 @@ namespace TwilightSparkle.Forum.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Route("LikeThread")]
+        public async Task<IActionResult> LikeThread([FromQuery]int threadId, bool isLike)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
 
-        private ThreadDetailsViewModel GetModel(IReadOnlyCollection<Section> sections, Thread thread)
+            await _threadsManagementService.LikeOrDislikeThreadAsync(threadId, isLike, User.Identity.Name);
+
+            var model = await GetThreadViewModelAsync(threadId);
+
+            var content = await this.RenderViewToStringAsync("/Views/Threads/ThreadLikesSection.cshtml", model);
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = content
+            };
+        }
+
+        [HttpPost]
+        [Route("CommentThread")]
+        public async Task<IActionResult> CommentThread([FromForm]int threadId, [FromForm]string content, [FromForm]string unparsedContent)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+            if (string.IsNullOrWhiteSpace(unparsedContent))
+            {
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = "Content can't be empty"
+                };
+            }
+
+            var commentResult = await _threadsManagementService.CommentThreadAsync(threadId, content, User.Identity.Name);
+            if (!commentResult.IsSuccess)
+            {
+                var errorMessage = GetErrorMessage(commentResult.ErrorType);
+
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = errorMessage
+                };
+            }
+
+            var model = await GetThreadViewModelAsync(threadId);
+            var commentSection = await this.RenderViewToStringAsync("/Views/Threads/ThreadCommentSection.cshtml", model);
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = commentSection
+            };
+        }
+
+
+        private async Task<ThreadDetailsViewModel> GetThreadViewModelAsync(int threadId)
+        {
+            var sections = await _threadsManagementService.GetSectionsAsync();
+            var thread = await _threadsManagementService.GetThreadAsync(threadId);
+            var comments = await _threadsManagementService.GetCommentariesAsync(threadId);
+            var amountOfLikes = await _threadsManagementService.GetAmountOfLikesAsync(threadId);
+            var likeStatus = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var like = await _threadsManagementService.GetLikeAsync(threadId, User.Identity.Name);
+                likeStatus = like == null ? 0 : like.IsLike ? 1 : -1;
+            }
+            var model = GetModel(sections, comments, thread, amountOfLikes, likeStatus);
+
+            return model;
+        }
+
+        private ThreadDetailsViewModel GetModel(IReadOnlyCollection<Section> sections, IReadOnlyCollection<Commentary> comments, Thread thread, int likesAmount, int likeStatus)
         {
             var sectionModels = sections.Select(s => new SectionViewModel
             {
                 SectionName = s.Name
+            }).ToList();
+            var commentsModels = comments.OrderByDescending(c => c.CommentTime).Select(c => new CommentThreadViewModel
+            {
+                AuthorNickname = c.Author.Username,
+                CommentTime = c.CommentTime,
+                Content = c.Content
             }).ToList();
             var threadModel = new ThreadViewModel
             {
@@ -152,8 +247,11 @@ namespace TwilightSparkle.Forum.Controllers
             var isAuthor = User.Identity.IsAuthenticated ? thread.Author.Username == User.Identity.Name : false;
             var model = new ThreadDetailsViewModel
             {
+                LikesAmount = likesAmount,
+                LikeStatus = likeStatus,
                 IsAuthor = isAuthor,
                 Sections = sectionModels,
+                Comments = commentsModels,
                 Thread = threadModel
             };
 
@@ -181,6 +279,17 @@ namespace TwilightSparkle.Forum.Controllers
             };
 
             return model;
+        }
+
+        private string GetErrorMessage(CommentThreadError error)
+        {
+            switch (error)
+            {
+                case CommentThreadError.InvalidContent:
+                    return "Invalid content";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(error), error, null);
+            }
         }
 
         private string GetErrorMessage(CreateThreadErrorType error)
